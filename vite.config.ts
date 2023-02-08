@@ -68,6 +68,10 @@ export default defineConfig({
   build: {
     sourcemap: process.env.SOURCE_MAP === 'true',
   },
+  server: {
+    port: 9000,
+    host: "0.0.0.0"
+  },
   plugins: [
     reactRefresh(),
     VitePWA(pwaOptions),
