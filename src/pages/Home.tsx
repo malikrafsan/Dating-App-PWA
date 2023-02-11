@@ -1,6 +1,10 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router";
 
+import {
+  Button,
+} from "@chakra-ui/react";
+
 import { BaseLayout } from "../layouts";
 import styles from "../styles/Home.module.css";
 import { ThemeContextProvider } from "../context-providers";
@@ -48,6 +52,18 @@ const Home = () => {
           <button type="submit">GO</button>
         </form>
         <a href="/about">About</a>
+        <Button variant="solidBlue" borderRadius="full">
+          Hello World
+        </Button>
+        <Button variant="solidPink" borderRadius="sm">
+          Hello World
+        </Button>
+        <Button variant="outlineBlue" borderRadius="lg">
+          Hello World
+        </Button>
+        <Button variant="outlinePink" borderRadius="md">
+          Hello World
+        </Button>
       </div>
     </BaseLayout>
   );
