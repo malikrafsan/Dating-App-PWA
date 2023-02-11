@@ -64,6 +64,9 @@ const Home = () => {
         <Button variant="outlinePink" borderRadius="md">
           Hello World
         </Button>
+        <div>
+          Deployed Automatically
+        </div>
       </div>
     </BaseLayout>
   );
