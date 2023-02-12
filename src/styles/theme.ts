@@ -1,5 +1,6 @@
-import { extendTheme } from "@chakra-ui/react";
+import { extendTheme, grid } from "@chakra-ui/react";
 import { ButtonStyles as Button } from "./components/buttonStyles";
+import { InputStyles as Input } from "./components/inputStyles";
 
 const theme = extendTheme({
     colors: {
@@ -19,6 +20,7 @@ const theme = extendTheme({
     fonts: {
         heading: "Poppins",
         body: "Poppins",
+
     },
     styles: {
         global: {
@@ -26,11 +28,16 @@ const theme = extendTheme({
                 bg: "blue.light",
                 color: "blue.dark",
             },
+            "#app" : {
+                maxWidth: "30em",
+                margin: "0 auto",
+            }
         },
     },
 
     components: {
         Button,
+        Input,
     }
 
 });

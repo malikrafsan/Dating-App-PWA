@@ -3,12 +3,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { createRoot } from 'react-dom/client'
 import {
   ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
 } from '@chakra-ui/react'
 
 import customTheme from './styles/theme'
@@ -16,6 +10,7 @@ import './index.css'
 import Home from './pages/Home'
 import About from './pages/About'
 import Hi from './pages/hi/[name]'
+import Register from './pages/Register'
 
 createRoot(document.getElementById('app')!).render(
   <ChakraProvider theme={customTheme}>
@@ -27,6 +22,7 @@ createRoot(document.getElementById('app')!).render(
           <Route path="/hi">
             <Route path=":name" element={<Hi />}/>
           </Route>
+          <Route path="/register" element={<Register />}/>
         </Route>
       </Routes>
     </BrowserRouter>
