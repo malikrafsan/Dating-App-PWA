@@ -11,7 +11,7 @@ export const InputStyles = {
             },
             _placeholder: {
                 color: "gray.300",
-            }
+            },
         },
     },
     sizes: {

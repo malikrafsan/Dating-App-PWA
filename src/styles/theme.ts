@@ -19,18 +19,19 @@ const theme = extendTheme({
     },
     fonts: {
         heading: "Poppins",
-        body: "Poppins",
-
+        body: `'Open Sans', sans-serif`,
     },
     styles: {
         global: {
             body: {
-                bg: "blue.light",
+                bg: "white",
                 color: "blue.dark",
             },
             "#app" : {
                 maxWidth: "30em",
                 margin: "0 auto",
+                bg: "blue.light",
+                minHeight: "100vh",
             }
         },
     },
