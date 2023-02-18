@@ -14,7 +14,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-    "types": ["vite-plugin-pwa", "vite-plugin-pwa/client"]
+    "types": ["vite-plugin-pwa", "vite-plugin-pwa/client", "node"]
   },
   "include": [
     "./src",
