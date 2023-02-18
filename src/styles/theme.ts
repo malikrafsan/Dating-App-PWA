@@ -20,7 +20,7 @@ const theme = extendTheme({
   },
   fonts: {
     heading: "Poppins",
-    body: "'Open Sans', sans-serif",
+    body: "Poppins",
   },
   styles: {
     global: {

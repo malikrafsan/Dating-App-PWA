@@ -23,6 +23,7 @@ const Register = () => {
     confirmPassword: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessageEmail, setErrorMessageEmail] = useState("");
 
   const { register } = useAuth();
 
@@ -33,10 +34,14 @@ const Register = () => {
 
   const handleRegister :MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
-    if (!isMatchPassword()) {
-      setErrorMessage("Password does not match");
+    if (!formValues.email || !formValues.username || !formValues.password) {
+      setErrorMessage("Please fill all the fields");
       return;
     }
+    if (!isValidEmail() || !isMatchPassword()) {
+      return;
+    }
+
     register(formValues.email, formValues.username, formValues.password)
       .then((_) => {
         alert("Register successful!");
@@ -47,6 +52,20 @@ const Register = () => {
         }
       });
   };
+
+  const isValidEmail = () => {
+    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    return emailRegex.test(formValues.email);
+  };
+
+  useEffect(() => {
+    if (isValidEmail()) {
+      setErrorMessageEmail("");
+    } else {
+      setErrorMessageEmail("Please enter a valid email");
+    }
+  }, [formValues.email]);
+
 
   const isMatchPassword = () => {
     return formValues.password === formValues.confirmPassword;
@@ -74,6 +93,7 @@ const Register = () => {
             label="Email"
             value={formValues.email}
             setValue={(val) => handleChange(val, "email")}
+            errorMessage={errorMessageEmail}
           />
           <InputField
             type="text"
