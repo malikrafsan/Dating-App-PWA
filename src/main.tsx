@@ -10,21 +10,24 @@ import About from "./pages/About";
 import Hi from "./pages/hi/[name]";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import { AuthProvider } from "./context-providers/AuthProvider";
 
 createRoot(document.getElementById("app")!).render(
   <ChakraProvider theme={customTheme}>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/">
-          <Route index element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/hi">
-            <Route path=":name" element={<Hi />} />
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/">
+            <Route index element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/hi">
+              <Route path=":name" element={<Hi />} />
+            </Route>
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
           </Route>
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   </ChakraProvider>
 );
