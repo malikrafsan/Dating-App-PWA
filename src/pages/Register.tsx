@@ -54,7 +54,7 @@ const Register = () => {
   };
 
   const isValidEmail = () => {
-    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
     return emailRegex.test(formValues.email);
   };
 
