@@ -6,7 +6,7 @@ interface IAuthProviderProps {
 
 const AuthContext = createContext({
   token: null,
-  login: async (username: string, password: string) => {},
+  login: async (_: string, __: string) => {},
   logout: () => {},
 });
 

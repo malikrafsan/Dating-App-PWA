@@ -12,6 +12,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import { AuthProvider } from "./context-providers/AuthProvider";
 
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 createRoot(document.getElementById("app")!).render(
   <ChakraProvider theme={customTheme}>
     <AuthProvider>

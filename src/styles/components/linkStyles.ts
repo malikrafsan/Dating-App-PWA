@@ -1,8 +1,8 @@
 export const LinkStyles = {
   baseStyle: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     _hover: {
-      textDecoration: 'none',
+      textDecoration: "none",
     },
   },
-}
+};

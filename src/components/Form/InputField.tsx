@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, ChangeEventHandler } from "react";
 import {
   Input,
   Box,
@@ -25,7 +25,7 @@ export const InputField: FC<InputFieldProps> = ({
 }) => {
   const [isActive, setIsActive] = useState(false);
 
-  const handleChange = (e: any) => {
+  const handleChange : ChangeEventHandler<HTMLInputElement> = (e) => {
     const text = e.target.value;
     setValue(text);
   };

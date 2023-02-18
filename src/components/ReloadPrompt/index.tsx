@@ -1,17 +1,17 @@
-import React from 'react'
-import styles from './index.module.css'
+import React from "react";
+import styles from "./index.module.css";
 
-import { useRegisterSW } from 'virtual:pwa-register/react'
-import { pwaInfo } from 'virtual:pwa-info'
+import { useRegisterSW } from "virtual:pwa-register/react";
+import { pwaInfo } from "virtual:pwa-info";
 
 // eslint-disable-next-line no-console
-console.log(pwaInfo)
+console.log(pwaInfo);
 
 function ReloadPrompt() {
   // replaced dynamically
-  const buildDate = '__DATE__'
+  const buildDate = "__DATE__";
   // replaced dyanmicaly
-  const reloadSW = '__RELOAD_SW__'
+  const reloadSW = "__RELOAD_SW__";
 
   const {
     offlineReady: [offlineReady, setOfflineReady],
@@ -20,30 +20,30 @@ function ReloadPrompt() {
   } = useRegisterSW({
     onRegisteredSW(swUrl, r) {
       // eslint-disable-next-line no-console
-      console.log(`Service Worker at: ${swUrl}`)
+      console.log(`Service Worker at: ${swUrl}`);
       // @ts-expect-error just ignore
-      if (reloadSW === 'true') {
+      if (reloadSW === "true") {
         r && setInterval(() => {
           // eslint-disable-next-line no-console
-          console.log('Checking for sw update')
-          r.update()
-        }, 20000 /* 20s for testing purposes */)
+          console.log("Checking for sw update");
+          r.update();
+        }, 20000 /* 20s for testing purposes */);
       }
       else {
         // eslint-disable-next-line prefer-template,no-console
-        console.log('SW Registered: ' + r)
+        console.log("SW Registered: " + r);
       }
     },
     onRegisterError(error) {
       // eslint-disable-next-line no-console
-      console.log('SW registration error', error)
+      console.log("SW registration error", error);
     },
-  })
+  });
 
   const close = () => {
-    setOfflineReady(false)
-    setNeedRefresh(false)
-  }
+    setOfflineReady(false);
+    setNeedRefresh(false);
+  };
 
   return (
     <div className={styles.container}>
@@ -76,4 +76,4 @@ function ReloadPrompt() {
   );
 }
 
-export default ReloadPrompt
+export default ReloadPrompt;

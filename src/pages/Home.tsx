@@ -32,7 +32,7 @@ const Home = () => {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    router(`/login`);
+    router("/login");
   };
 
   return (

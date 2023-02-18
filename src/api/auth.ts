@@ -1,19 +1,18 @@
-import axios, { AxiosError } from 'axios'
-import { LoginData, Response } from '../types/response'
+import axios from "axios";
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000',
-})
+  baseURL: "http://localhost:3000",
+});
 
 const login = async (username: string, password: string) => {
-  const { data } = await api.post('/auth/login', {
+  const { data } = await api.post("/auth/login", {
     username,
     password,
-  })
-  return data
+  });
+  return data;
 
-}
+};
 
 export default {
   login,
-}
+};

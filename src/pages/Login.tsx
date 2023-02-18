@@ -1,17 +1,14 @@
 import {
-  Flex,
   VStack,
   Heading,
   Image,
   Button,
   Text,
   Link,
-  Grid,
-  useToast,
   Center,
 } from "@chakra-ui/react";
 import { BaseLayout } from "../layouts";
-import React, { useState } from "react";
+import React, { useState, MouseEventHandler } from "react";
 import { InputField } from "../components/Form/InputField";
 import { useAuth } from "../context-providers/AuthProvider";
 
@@ -29,10 +26,10 @@ const Login = () => {
     setErrorMessage("");
   };
 
-  const handleLogin = (e: any) => {
+  const handleLogin :MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
     login(formValues.username, formValues.password)
-      .then((res) => {
+      .then((_) => {
         alert("Login successful!");
       })
       .catch((err) => {
