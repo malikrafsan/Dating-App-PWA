@@ -6,51 +6,73 @@ import {
   Button,
   Text,
   Link,
+  Grid,
+  useToast,
+  Center,
 } from "@chakra-ui/react";
 import { BaseLayout } from "../layouts";
-import React from "react";
+import React, { useState } from "react";
 import { InputField } from "../components/Form/InputField";
+import { useAuth } from "../context-providers/AuthProvider";
 
 const Login = () => {
-  const [formValues, setFormValues] = React.useState({
+  const [formValues, setFormValues] = useState({
     username: "",
     password: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleLogin = (e) => {
+  const { login } = useAuth();
+
+  const handleChange = (val: string, key: string) => {
+    setFormValues({ ...formValues, [key]: val });
+    setErrorMessage("");
+  };
+
+  const handleLogin = (e: any) => {
     e.preventDefault();
-    console.log("formValues", formValues);
+    login(formValues.username, formValues.password)
+      .then((res) => {
+        alert("Login successful!");
+      })
+      .catch((err) => {
+        if (err.response?.data?.message) {
+          setErrorMessage(err.response.data.message);
+        }
+      });
   };
   return (
     <BaseLayout>
-      <VStack h="100vh" gap={16} py={16}>
-        <Image px={16} src="images/logo/logo-loves.png" alt="logo" />
+      <Center h="100%" py={8} flexDir="column" justifyContent="space-evenly">
+        <Image px={24} src="images/logo/logo-loves.png" alt="logo" />
+        {/* FIXME: Import Poppins Font */}
         <Heading>Ready, Set, Love!</Heading>
-        <VStack gap={8} w="80%">
+        <VStack mt={4} w="80%" h="100%" justifyContent="space-evenly">
           <InputField
             type="text"
             label="Username"
             value={formValues.username}
-            setValue={(val) => setFormValues({ ...formValues, username: val })}
+            setValue={(val) => handleChange(val, "username")}
           />
           <InputField
-            type="text"
+            type="password"
             label="Password"
             value={formValues.password}
-            setValue={(val) => setFormValues({ ...formValues, password: val })}
+            setValue={(val) => handleChange(val, "password")}
+            errorMessage={errorMessage}
           />
         </VStack>
         <Button onClick={handleLogin} w="60%" variant="solidPink">
           Sign In
         </Button>
-        <Text>
-          Trying to find love?{" "}
+        <Text mt={4}>
+          Trying to find love?&nbsp;
           <Link href="/register" color="pink.primary">
             Sign Up
-          </Link>{" "}
-          here!
+          </Link>
+          &nbsp;here!
         </Text>
-      </VStack>
+      </Center>
     </BaseLayout>
   );
 };
