@@ -1,9 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router";
 
-import {
-  Button,
-} from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 
 import { BaseLayout } from "../layouts";
 import styles from "../styles/Home.module.css";
@@ -28,6 +26,13 @@ const Home = () => {
     if (name) {
       router(`/hi/${name}`);
     }
+  };
+
+  const handleLogin = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    router(`/login`);
   };
 
   return (
@@ -64,10 +69,11 @@ const Home = () => {
         <Button variant="outlinePink" borderRadius="md">
           Hello World
         </Button>
-        <div>
-          Deployed Automatically
-        </div>
+        <div>Deployed Automatically</div>
       </div>
+      <Button variant="ghostBlue" borderRadius="xl" onClick={handleLogin}>
+        Login
+      </Button>
     </BaseLayout>
   );
 };
