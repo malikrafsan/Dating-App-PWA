@@ -41,10 +41,10 @@ const Login = () => {
   return (
     <BaseLayout>
       <Center h="100%" py={8} flexDir="column" justifyContent="space-evenly">
-        <Image px={24} src="images/logo/logo-loves.png" alt="logo" />
+        <Image px={24} py={8} src="images/logo/logo-loves.png" alt="logo" />
         {/* FIXME: Import Poppins Font */}
         <Heading>Ready, Set, Love!</Heading>
-        <VStack mt={4} w="80%" h="100%" justifyContent="space-evenly">
+        <VStack mt={8} w="80%" h="100%" gap={2}>
           <InputField
             type="text"
             label="Username"

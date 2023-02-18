@@ -5,6 +5,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 
 import customTheme from "./styles/theme";
 import "./index.css";
+import "@fontsource/poppins";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Hi from "./pages/hi/[name]";
