@@ -1,55 +1,111 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, MouseEventHandler } from "react";
+import { BaseLayout } from "../layouts";
+import { InputField } from "../components/Form/InputField";
+import { useAuth } from "../context-providers/AuthProvider";
 
 import {
   Button,
   Box,
   Text,
-  Grid,
   Image,
+  VStack,
+  Heading,
+  Link,
+  Center,
 } from "@chakra-ui/react";
-
-import { InputField } from "../components/Form/InputField";
-
-import { BaseLayout } from "../layouts";
 
 
 const Register = () => {
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [formValues, setFormValues] = useState({
+    email: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [errorMessage, setErrorMessage] = useState("");
 
-  console.log("email", email);
-  console.log("username", username);
-  console.log("password", password);
-  console.log("confirmPassword", confirmPassword);
+  const { register } = useAuth();
+
+  const handleChange = (val: string, key: string) => {
+    setFormValues({ ...formValues, [key]: val });
+    setErrorMessage("");
+  };
+
+  const handleRegister :MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.preventDefault();
+    if (!isMatchPassword()) {
+      setErrorMessage("Password does not match");
+      return;
+    }
+    register(formValues.email, formValues.username, formValues.password)
+      .then((_) => {
+        alert("Register successful!");
+      })
+      .catch((err) => {
+        if (err.response?.data?.message) {
+          setErrorMessage(err.response.data.message);
+        }
+      });
+  };
+
+  const isMatchPassword = () => {
+    return formValues.password === formValues.confirmPassword;
+  };
+
+  useEffect (() => {
+    if (isMatchPassword()) {
+      setErrorMessage("");
+    } else {
+      setErrorMessage("Password does not match");
+    }
+  }, [formValues.password, formValues.confirmPassword]);
 
   return (
     <BaseLayout>
-      <Grid>
-        <Box backgroundImage="url('/images/vstock/Vector 5.png')" backgroundSize="100% 100%" backgroundPosition="center" backgroundRepeat="no-repeat" height="40vh" display="flex" alignItems="center" justifyContent="center" flexDirection="column">
-          <Image src={"/images/logo/logo-white.png"} alt="logo" height="150px" />
+      <Center h="100%" pb={8} flexDir="column" justifyContent="space-evenly">
+        <Box backgroundImage="url('/images/vstock/Vector 5.png')" backgroundSize="100% 100%" backgroundRepeat="no-repeat" w="100%" h="60%" display="flex" alignItems="center" justifyContent="center" mb={8} >
+          <Image src="images/logo/logo-white.png" alt="logo" w="40%" />
         </Box>
-      </Grid>
-      <Grid gap={4}>
-        <Grid textAlign="center">
-          <Text fontSize="xl" fontWeight="bold">Create an Account</Text>
-        </Grid>
-        <Grid templateColumns="repeat(1, 1fr)" gap={0} px={10} py={0}>
-          <InputField type="email" label="Email" value={email} setValue={setEmail}/>
-          <InputField type="text" label="Username" value={username} setValue={setUsername} />
-          <InputField type="password" label="Enter Pasword" value={password} setValue={setPassword} />
-          <InputField type="password" label="Confirm Password" value={confirmPassword} setValue={setConfirmPassword} />
-        </Grid>
-        <Grid alignItems="center" justifyContent="center">
-          <Button variant="solidBlue">
-                        Sign Up
-          </Button>
-        </Grid>
-        <Grid alignItems="center" justifyContent="center">
-          <Text fontSize="sm" color="gray.400">Already have an account? <Text as="span" color="blue.dark">Sign In</Text> here!</Text>
-        </Grid>
-      </Grid>
+            
+        <Heading>Create Your Account</Heading>
+        <VStack mt={8} w="80%" h="100%" gap={2}>
+          <InputField
+            type="email"
+            label="Email"
+            value={formValues.email}
+            setValue={(val) => handleChange(val, "email")}
+          />
+          <InputField
+            type="text"
+            label="Username"
+            value={formValues.username}
+            setValue={(val) => handleChange(val, "username")}
+          />
+          <InputField
+            type="password"
+            label="Password"
+            value={formValues.password}
+            setValue={(val) => handleChange(val, "password")}
+          />
+          <InputField
+            type="password"
+            label="Confirm Password"
+            value={formValues.confirmPassword}
+            setValue={(val) => handleChange(val, "confirmPassword")}
+            errorMessage={errorMessage}
+          />
+        </VStack>
+        <Button onClick={handleRegister} w="60%" variant="solidBlue">
+                Sign Up
+        </Button>
+        <Text mt={4}>
+                Already have an account?&nbsp;
+          <Link href="/login" color="pink.primary">
+                Sign In
+          </Link>
+                &nbsp;here!
+        </Text>
+      </Center>
     </BaseLayout>
   );
 };

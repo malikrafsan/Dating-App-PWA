@@ -8,6 +8,7 @@ const AuthContext = createContext({
   token: null,
   login: async (_: string, __: string) => {},
   logout: () => {},
+  register: async (_: string, __: string, ___: string) => {},
 });
 
 export const AuthProvider = (props: IAuthProviderProps) => {
@@ -27,9 +28,21 @@ export const AuthProvider = (props: IAuthProviderProps) => {
     setToken(null);
   }, []);
 
+  const registerHandler = useCallback(
+    async (email: string, username: string, password: string) => {
+      const res = await Auth.register(email, username, password);
+      if (res && res.data?.token) {
+        setToken(res.data?.token);
+      }
+    },
+    []
+  );
+
+
+
   return (
     <AuthContext.Provider
-      value={{ token, login: loginHandler, logout: logoutHandler }}
+      value={{ token, login: loginHandler, logout: logoutHandler, register: registerHandler }}
     >
       {props.children}
     </AuthContext.Provider>
