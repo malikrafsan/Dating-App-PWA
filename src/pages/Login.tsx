@@ -1,0 +1,80 @@
+import {
+  Flex,
+  VStack,
+  Heading,
+  Image,
+  Button,
+  Text,
+  Link,
+  Grid,
+  useToast,
+  Center,
+} from "@chakra-ui/react";
+import { BaseLayout } from "../layouts";
+import React, { useState } from "react";
+import { InputField } from "../components/Form/InputField";
+import { useAuth } from "../context-providers/AuthProvider";
+
+const Login = () => {
+  const [formValues, setFormValues] = useState({
+    username: "",
+    password: "",
+  });
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const { login } = useAuth();
+
+  const handleChange = (val: string, key: string) => {
+    setFormValues({ ...formValues, [key]: val });
+    setErrorMessage("");
+  };
+
+  const handleLogin = (e: any) => {
+    e.preventDefault();
+    login(formValues.username, formValues.password)
+      .then((res) => {
+        alert("Login successful!");
+      })
+      .catch((err) => {
+        if (err.response?.data?.message) {
+          setErrorMessage(err.response.data.message);
+        }
+      });
+  };
+  return (
+    <BaseLayout>
+      <Center h="100%" py={8} flexDir="column" justifyContent="space-evenly">
+        <Image px={24} src="images/logo/logo-loves.png" alt="logo" />
+        {/* FIXME: Import Poppins Font */}
+        <Heading>Ready, Set, Love!</Heading>
+        <VStack mt={4} w="80%" h="100%" justifyContent="space-evenly">
+          <InputField
+            type="text"
+            label="Username"
+            value={formValues.username}
+            setValue={(val) => handleChange(val, "username")}
+          />
+          <InputField
+            type="password"
+            label="Password"
+            value={formValues.password}
+            setValue={(val) => handleChange(val, "password")}
+            errorMessage={errorMessage}
+          />
+        </VStack>
+        <Button onClick={handleLogin} w="60%" variant="solidPink">
+          Sign In
+        </Button>
+        <Text mt={4}>
+          Trying to find love?&nbsp;
+          <Link href="/register" color="pink.primary">
+            Sign Up
+          </Link>
+          &nbsp;here!
+        </Text>
+      </Center>
+    </BaseLayout>
+  );
+};
+
+export default Login;

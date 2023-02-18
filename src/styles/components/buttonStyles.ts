@@ -1,6 +1,7 @@
 export const ButtonStyles = {
   baseStyle: {
     fontWeight: 'bold',
+    borderRadius: 'full',
   },
   sizes: {
     sm: {
@@ -54,7 +55,6 @@ export const ButtonStyles = {
   },
   defaultProps: {
     size: 'md',
-    borderRadius: 'lg',
     variant: 'solid',
   },
 }
