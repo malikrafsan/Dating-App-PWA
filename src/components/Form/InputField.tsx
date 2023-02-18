@@ -1,11 +1,19 @@
 import React, { FC, useState } from "react";
-import { Input, Box, Text } from "@chakra-ui/react";
+import {
+  Input,
+  Box,
+  Text,
+  Alert,
+  AlertIcon,
+  AlertDescription,
+} from "@chakra-ui/react";
 
 interface InputFieldProps {
   type: string;
   label: string;
   value: string;
   setValue: (value: string) => void;
+  errorMessage?: string;
 }
 
 export const InputField: FC<InputFieldProps> = ({
@@ -13,6 +21,7 @@ export const InputField: FC<InputFieldProps> = ({
   label,
   value,
   setValue,
+  errorMessage,
 }) => {
   const [isActive, setIsActive] = useState(false);
 
@@ -57,6 +66,18 @@ export const InputField: FC<InputFieldProps> = ({
           backgroundColor="white"
         />
       </Box>
+      {errorMessage ? (
+        <Alert
+          status="error"
+          borderRadius="full"
+          color="red.400"
+          height={8}
+          mt={1}
+        >
+          <AlertIcon h={4} />
+          <AlertDescription>{errorMessage}</AlertDescription>
+        </Alert>
+      ) : null}
     </Box>
   );
 };
