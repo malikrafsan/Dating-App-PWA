@@ -17,6 +17,15 @@
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 image: node:lts-alpine
 
+cache:
+  paths:
+    - node_modules/
+    - .yarn
+
+before_script:
+  - apt-get update -qq && apt-get install
+  - yarn install
+
 stages:          # List of stages for jobs, and their order of execution
   - build
   - test
@@ -25,7 +34,6 @@ stages:          # List of stages for jobs, and their order of execution
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
   script:
-    - yarn install
     - yarn build
 
 # unit-test-job:   # This job runs in the test stage.
