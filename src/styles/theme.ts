@@ -31,8 +31,9 @@ const theme = extendTheme({
       "#app": {
         maxWidth: "30em",
         margin: "0 auto",
-        bg: "blue.light",
+        bg: "#f3f0ff",
         minHeight: "100vh",
+        position: "relative",
       }
     },
   },
