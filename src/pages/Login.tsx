@@ -26,7 +26,7 @@ const Login = () => {
     setErrorMessage("");
   };
 
-  const handleLogin :MouseEventHandler<HTMLButtonElement> = (e) => {
+  const handleLogin: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
     login(formValues.username, formValues.password)
       .then((_) => {

@@ -11,6 +11,7 @@ import About from "./pages/About";
 import Hi from "./pages/hi/[name]";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import Profile from "./pages/Profile";
 import { AuthProvider } from "./context-providers/AuthProvider";
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -27,6 +28,7 @@ createRoot(document.getElementById("app")!).render(
             </Route>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
         </Routes>
       </BrowserRouter>

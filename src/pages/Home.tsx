@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 
 import { Button } from "@chakra-ui/react";
 
-import { BaseLayout } from "../layouts";
+import { LoggedInLayout } from "../layouts";
 import styles from "../styles/Home.module.css";
 import { ThemeContextProvider } from "../context-providers";
 
@@ -36,7 +36,7 @@ const Home = () => {
   };
 
   return (
-    <BaseLayout>
+    <LoggedInLayout>
       <div className="Home">
         <div>Theme: {theme}</div>
         <button
@@ -74,7 +74,18 @@ const Home = () => {
       <Button variant="ghostBlue" borderRadius="xl" onClick={handleLogin}>
         Login
       </Button>
-    </BaseLayout>
+      <div>
+        {
+          Array(100).fill(0).map((_, idx) => {
+            return (
+              <Button key={idx} variant="solidBlue" borderRadius="full">
+                Hello World
+              </Button>
+            );
+          })
+        }
+      </div>
+    </LoggedInLayout>
   );
 };
 
