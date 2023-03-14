@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { BaseLayout } from "../layouts";
 import React, { useState, MouseEventHandler } from "react";
-import { InputField } from "../components/Form/InputField";
+import { InputField } from "../components/";
 import { useAuth } from "../context-providers/AuthProvider";
 
 const Login = () => {

@@ -1,31 +1,26 @@
 import React, { FC, useState, ChangeEventHandler } from "react";
 import {
-  Input,
+  Select,
   Box,
   Text,
-  Alert,
-  AlertIcon,
-  AlertDescription,
 } from "@chakra-ui/react";
 
-interface InputFieldProps {
-  type: string;
+interface SelectFieldProps {
   label: string;
   value: string;
+  options: string[];
   setValue: (value: string) => void;
-  errorMessage?: string;
 }
 
-const InputField: FC<InputFieldProps> = ({
-  type,
+const SelectField: FC<SelectFieldProps> = ({
   label,
   value,
+  options,
   setValue,
-  errorMessage,
 }) => {
   const [isActive, setIsActive] = useState(value !== "");
 
-  const handleChange : ChangeEventHandler<HTMLInputElement> = (e) => {
+  const handleChange : ChangeEventHandler<HTMLSelectElement> = (e) => {
     const text = e.target.value;
     setValue(text);
   };
@@ -54,8 +49,7 @@ const InputField: FC<InputFieldProps> = ({
         >
           {label}
         </Text>
-        <Input
-          type={type}
+        <Select
           onFocus={() => setIsActive(true)}
           onBlur={() => (value === "" ? setIsActive(false) : setIsActive(true))}
           value={value}
@@ -64,22 +58,15 @@ const InputField: FC<InputFieldProps> = ({
           border="1px solid"
           borderColor="blue.secondary"
           backgroundColor="white"
-        />
-      </Box>
-      {errorMessage ? (
-        <Alert
-          status="error"
-          borderRadius="full"
-          color="red.400"
-          height={8}
-          mt={1}
+          placeholder={`Select ${label}`}
         >
-          <AlertIcon h={4} />
-          <AlertDescription>{errorMessage}</AlertDescription>
-        </Alert>
-      ) : null}
+          {options.map((option) => (
+            <option key={option} value={option}>{option}</option>
+          ))}
+        </Select>
+      </Box>
     </Box>
   );
 };
 
-export default InputField;
+export default SelectField;
