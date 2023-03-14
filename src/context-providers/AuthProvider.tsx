@@ -19,6 +19,7 @@ export const AuthProvider = (props: IAuthProviderProps) => {
       const res = await Auth.login(username, password);
       if (res && res.data?.token) {
         setToken(res.data?.token);
+        localStorage.setItem("token", res.data?.token);
       }
     },
     []
@@ -26,6 +27,7 @@ export const AuthProvider = (props: IAuthProviderProps) => {
 
   const logoutHandler = useCallback(() => {
     setToken(null);
+    localStorage.removeItem("token");
   }, []);
 
   const registerHandler = useCallback(

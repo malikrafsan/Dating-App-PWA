@@ -8,6 +8,10 @@ const login = async (username: string, password: string) => {
   const { data } = await api.post("/auth/login", {
     username,
     password,
+  }, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    }
   });
   return data;
 

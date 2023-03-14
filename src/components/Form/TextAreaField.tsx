@@ -1,31 +1,24 @@
 import React, { FC, useState, ChangeEventHandler } from "react";
 import {
-  Input,
+  Textarea,
   Box,
   Text,
-  Alert,
-  AlertIcon,
-  AlertDescription,
 } from "@chakra-ui/react";
 
-interface InputFieldProps {
-  type: string;
+interface TextAreaFieldProps {
   label: string;
   value: string;
   setValue: (value: string) => void;
-  errorMessage?: string;
 }
 
-const InputField: FC<InputFieldProps> = ({
-  type,
+const TextAreaField: FC<TextAreaFieldProps> = ({
   label,
   value,
   setValue,
-  errorMessage,
 }) => {
   const [isActive, setIsActive] = useState(value !== "");
 
-  const handleChange : ChangeEventHandler<HTMLInputElement> = (e) => {
+  const handleChange : ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     const text = e.target.value;
     setValue(text);
   };
@@ -54,32 +47,29 @@ const InputField: FC<InputFieldProps> = ({
         >
           {label}
         </Text>
-        <Input
-          type={type}
-          onFocus={() => setIsActive(true)}
+        <Textarea
+          onFocus={(e) => {
+            setIsActive(true);
+            e.currentTarget.style.height = e.currentTarget.scrollHeight + "px";
+          }}
           onBlur={() => (value === "" ? setIsActive(false) : setIsActive(true))}
+          onInput={(e) => {
+            e.currentTarget.style.height = "auto";
+            e.currentTarget.style.height = e.currentTarget.scrollHeight + "px";
+          }}
           value={value}
           onChange={handleChange}
-          borderRadius="full"
+          borderRadius="3xl"
           border="1px solid"
           borderColor="blue.secondary"
           backgroundColor="white"
+          resize="none"
+          overflow="hidden"
+          minH="100px"
         />
       </Box>
-      {errorMessage ? (
-        <Alert
-          status="error"
-          borderRadius="full"
-          color="red.400"
-          height={8}
-          mt={1}
-        >
-          <AlertIcon h={4} />
-          <AlertDescription>{errorMessage}</AlertDescription>
-        </Alert>
-      ) : null}
     </Box>
   );
 };
 
-export default InputField;
+export default TextAreaField;

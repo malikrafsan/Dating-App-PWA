@@ -1,6 +1,6 @@
 import React, { useState, useEffect, MouseEventHandler } from "react";
 import { BaseLayout } from "../layouts";
-import { InputField } from "../components/Form/InputField";
+import { InputField } from "../components/";
 import { useAuth } from "../context-providers/AuthProvider";
 
 import {
