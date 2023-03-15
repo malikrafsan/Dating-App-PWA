@@ -140,7 +140,7 @@ const Profile = () => {
 
   const PhotoProfile = () => (
     <Box w="200px" h="200px" position="relative">
-      <Image src={profileValues.profileUrl || "/images/blank_profile.png"} alt="profile"
+      <Image src={profileValues.profileUrl || "/images/blank-profile.png"} alt="profile"
         rounded='full'
         boxSize='200px'
         objectFit='cover'
