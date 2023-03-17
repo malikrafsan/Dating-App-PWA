@@ -17,8 +17,8 @@ import { AuthProvider } from "./context-providers/AuthProvider";
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 createRoot(document.getElementById("app")!).render(
   <ChakraProvider theme={customTheme}>
-    <AuthProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <AuthProvider>
         <Routes>
           <Route path="/">
             <Route index element={<Home />} />
@@ -31,7 +31,7 @@ createRoot(document.getElementById("app")!).render(
             <Route path="/profile" element={<Profile />} />
           </Route>
         </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+      </AuthProvider>
+    </BrowserRouter>
   </ChakraProvider>
 );

@@ -26,7 +26,17 @@ const register = async (email: string, username: string, password: string) => {
   return data;
 };
 
+const self = async () => {
+  const { data } = await api.get("/auth/self", {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    }
+  });
+  return data;
+};
+
 export default {
   login,
   register,
+  self
 };
