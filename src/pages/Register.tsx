@@ -13,6 +13,7 @@ import {
   Link,
   Center,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 
 const Register = () => {
@@ -24,6 +25,7 @@ const Register = () => {
   });
   const [errorMessage, setErrorMessage] = useState("");
   const [errorMessageEmail, setErrorMessageEmail] = useState("");
+  const navigate = useNavigate();
 
   const { register } = useAuth();
 
@@ -44,7 +46,7 @@ const Register = () => {
 
     register(formValues.email, formValues.username, formValues.password)
       .then((_) => {
-        alert("Register successful!");
+        navigate("/login");
       })
       .catch((err) => {
         if (err.response?.data?.message) {

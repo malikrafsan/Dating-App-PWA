@@ -6,6 +6,9 @@ import SelectField from "./Form/SelectField";
 import StaticField from "./Form/StaticField";
 import HeaderProfile from "./HeaderProfile/HeaderProfile";
 import UpdatableImage from "./Image/UpdatableImage";
+import FullPageLoading from "./FullPageLoading";
+import UseWarning from "./WarningModal";
+
 
 export {
   ReloadPrompt,
@@ -16,4 +19,6 @@ export {
   StaticField,
   HeaderProfile,
   UpdatableImage,
+  FullPageLoading,
+  UseWarning
 };

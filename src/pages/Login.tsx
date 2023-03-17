@@ -11,6 +11,7 @@ import { BaseLayout } from "../layouts";
 import React, { useState, MouseEventHandler } from "react";
 import { InputField } from "../components/";
 import { useAuth } from "../context-providers/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [formValues, setFormValues] = useState({
@@ -18,6 +19,7 @@ const Login = () => {
     password: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   const { login } = useAuth();
 
@@ -30,7 +32,7 @@ const Login = () => {
     e.preventDefault();
     login(formValues.username, formValues.password)
       .then((_) => {
-        alert("Login successful!");
+        navigate("/profile");
       })
       .catch((err) => {
         if (err.response?.data?.message) {

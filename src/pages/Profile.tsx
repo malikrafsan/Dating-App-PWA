@@ -1,9 +1,9 @@
 import React, { useEffect, useState, MouseEventHandler } from "react";
 
-import { HeaderProfile, StaticField, InputField, TextAreaField, SelectField, UpdatableImage } from "../components/";
+import { HeaderProfile, StaticField, InputField, TextAreaField, SelectField, UpdatableImage, UseWarning } from "../components/";
 import { BaseLayout } from "../layouts";
 import { User } from "../api";
-import { MdCameraAlt as Camera, MdOutlineAddCircle as Add, MdCancel as Cancel } from "react-icons/md";
+import { MdCameraAlt as Camera, MdOutlineAddCircle as Add, MdCancel as Cancel, MdLogout } from "react-icons/md";
 import {
   Text,
   Center,
@@ -17,6 +17,7 @@ import {
   TagLeftIcon,
   Icon,
 } from "@chakra-ui/react";
+import { useAuth } from "../context-providers/AuthProvider";
 
 const Profile = () => {
   const { getProfile, updateProfile, updateProfilePhoto, getTags } = User;
@@ -49,6 +50,9 @@ const Profile = () => {
     profileUrl: new FormData(),
     userPhoto: [new FormData(), new FormData(), new FormData()],
   });
+
+  const {logout} = useAuth();
+  const {WarningModal, warning} = UseWarning();
 
   const sexValues = ["MALE", "FEMALE"];
 
@@ -182,6 +186,7 @@ const Profile = () => {
 
   return (
     <BaseLayout>
+      <WarningModal/>
       <Center h="100%" py={20} flexDir="column" justifyContent="flex-start">
         <HeaderProfile state={state} setState={setState} />
         {state === "VIEW" && 
@@ -205,6 +210,20 @@ const Profile = () => {
                 </Tag>
               ))}
             </HStack>
+            
+            {/* Logout Button */}
+            <Button
+              mt={4}
+              colorScheme="blue"
+              rounded='full' 
+              boxShadow='md'
+              p={4}
+              cursor='pointer'
+              onClick={() => warning({ title: "Are you sure?", description: "You will be logged out.", onConfirm: () => logout() })}
+            >
+              Logout&nbsp;
+              <Icon as={MdLogout} boxSize={6} />
+            </Button>
           </>
         }
         {state === "EDIT" &&
