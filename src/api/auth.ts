@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Response, SelfData } from "../types/response";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL as string,
@@ -32,7 +33,7 @@ const self = async () => {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     }
   });
-  return data;
+  return data as Response<SelfData>;
 };
 
 export default {
