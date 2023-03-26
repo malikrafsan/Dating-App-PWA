@@ -6,12 +6,8 @@ import { ChakraProvider } from "@chakra-ui/react";
 import customTheme from "./styles/theme";
 import "./index.css";
 import "@fontsource/poppins";
-import Home from "./pages/Home";
-import About from "./pages/About";
 import Hi from "./pages/hi/[name]";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import Profile from "./pages/Profile";
+import { Home, About, Register, Login, Profile, Chat, ChatDetail } from "./pages";
 import { AuthProvider } from "./context-providers/AuthProvider";
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -29,6 +25,8 @@ createRoot(document.getElementById("app")!).render(
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/chat" element={<Chat />}></Route>
+            <Route path="/chat/:key" element={<ChatDetail />}></Route>
           </Route>
         </Routes>
       </AuthProvider>

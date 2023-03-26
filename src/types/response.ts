@@ -7,3 +7,11 @@ export type Response<T> = {
 export type LoginData = {
   token: string
 }
+
+export type SelfData = {
+  account: {
+    email: string;
+    username: string;
+    role: string;
+  }
+}

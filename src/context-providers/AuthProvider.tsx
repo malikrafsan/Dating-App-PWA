@@ -38,6 +38,7 @@ const PERMISSIONS :PermissionData  = {
   "/profile": ["USER"],
   "/login": ["UNAUTHORIZED"],
   "/register": ["UNAUTHORIZED"],
+  "/chat": ["UNAUTHORIZED"], // TODO: change later
   /*
   Bisa nested, contoh
   "/admin": {
