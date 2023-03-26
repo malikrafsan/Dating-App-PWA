@@ -1,4 +1,4 @@
 import BaseLayout from "./BaseLayout";
-import LoggedInLayout from "./LoggedIdLayout";
+import BottomNavLayout from "./BottomNavLayout";
 
-export { BaseLayout, LoggedInLayout };
+export { BaseLayout, BottomNavLayout };

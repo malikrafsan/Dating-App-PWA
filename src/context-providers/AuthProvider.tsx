@@ -2,12 +2,15 @@ import React, { createContext, useState, useEffect, useCallback, useContext } fr
 import { useLocation, useNavigate } from "react-router-dom";
 import { Auth } from "../api";
 import {FullPageLoading} from "../components";
+import {ROLE, Permission, PermissionData} from "../types/struct";
+
 interface IAuthProviderProps {
   children: React.ReactNode;
 }
 
 type AuthContextType = {
   token: string | undefined;
+  refreshToken: () => string | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   register: (email: string, username: string, password: string) => Promise<void>;
@@ -15,6 +18,7 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType>({
   token: "",
+  refreshToken: () => null,
   login: async (_: string, __: string) => {},
   logout: () => {},
   register: async (_: string, __: string, ___: string) => {},
@@ -28,23 +32,33 @@ export const useAuth = () => {
   return context;
 };
 
-type Permission = "UNAUTHORIZED" | "USER" | "ADMIN";
+const UserTypes = [
+  {
+    name: "Unauthorized",
+    role: ROLE.UNAUTHORIZED,
+    redirect: "/login",
+    rank: 0,
+  },
+  {
+    name: "User",
+    role: ROLE.USER,
+    redirect: "/profile",
+    rank: 1,
+  },
+  {
+    name: "Admin",
+    role: ROLE.ADMIN,
+    redirect: "/admin",
+    rank: 2,
+  }
+] as const;
 
-type PermissionData = {
-  [key: string]: Permission[] | PermissionData;
-}
-
-const PERMISSIONS :PermissionData  = {
-  "/profile": ["USER"],
-  "/login": ["UNAUTHORIZED"],
-  "/register": ["UNAUTHORIZED"],
-  "/chat": ["UNAUTHORIZED"], // TODO: change later
-  /*
-  Bisa nested, contoh
-  "/admin": {
-    "/channels": ["ADMIN"],
-  } 
-  */
+const PERMISSIONS: PermissionData  = {
+  "/profile": [ROLE.USER, ROLE.ADMIN],
+  "/login": [ROLE.UNAUTHORIZED],
+  "/register": [ROLE.UNAUTHORIZED],
+  "/channel": [ROLE.ADMIN],
+  "/chat": [ROLE.USER, ROLE.ADMIN],
 };
 
 interface IAuthGuardProps {
@@ -52,41 +66,62 @@ interface IAuthGuardProps {
 }
 
 const AuthGuard = ({ children } : IAuthGuardProps) => {
-  const { token } = useAuth();
+  const { token, refreshToken } = useAuth();
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
 
-  const checkPermission = (path: string, role: Permission, permissionData: PermissionData = PERMISSIONS) : boolean => {
-    const keypath = Object.keys(permissionData).find((key) => path.startsWith(key));
-    if (!keypath) return false;
-    const permissions = permissionData[path];
-    // Check if object, traverse again
-    if (!Array.isArray(permissions)) {
-      return checkPermission(path.slice(keypath.length + 1), role, (permissions as PermissionData));
-    }
-    else {
-      return (permissions as Permission[]).includes(role) || (permissions as Permission[]).includes("UNAUTHORIZED");
-    }
+  const getKeyPermission = (path: string) => {
+    return Object.keys(PERMISSIONS).find((key) => path.includes(key)); // change to regex later
   };
-  useEffect(() => {
-    setIsLoading(true);
+
+  const getUserRole = async (token: string | undefined): Promise<Permission> => {
     if (!token) {
-      checkPermission(pathname, "UNAUTHORIZED") ? null : navigate("/login");
-    } else {
-      Auth.self().then((res) => {
-        if (res && res.data) {
-          checkPermission(pathname, res.data.account.role) ? (
-            (pathname === "/login" || pathname === "/register") ? (
-              res.data.account.role === "USER" ? navigate("/profile") : navigate("/admin")
-            ) : null
-          ) : navigate("/login");
-        } else {
-          navigate("/login");
-        }
-      });
+      return ROLE.UNAUTHORIZED;
     }
-    setIsLoading(false);
+
+    const res = await Auth.self();
+    if (res && res.data) {
+      return res.data.account.role;
+    }
+    return ROLE.UNAUTHORIZED;
+  };
+
+  const onMount = async (pathname: string, token: string | undefined) => {
+    setIsLoading(true);
+
+    const keyPermission = getKeyPermission(pathname);
+    const permissions = keyPermission ? PERMISSIONS[keyPermission] : null;
+    
+    const userRole = await getUserRole(token);
+    const userType = UserTypes.find((type) => type.role === userRole);
+    const cleanType = userType ? userType : UserTypes[0]; // UNAUTHORIZED
+
+    if (!permissions) {
+      // alert("No permissions for this page");
+      navigate(cleanType.redirect);
+      return;
+    }
+
+    if (!permissions.includes(userRole)) {
+      // alert("You don't have permission to access this page" + "\nPermission: " + JSON.stringify(permissions) + "\nUserRole: " + userRole + "\nUserType: " + cleanType.name + "\nRedirecting to: " + cleanType.redirect);
+      navigate(cleanType.redirect);
+      return;
+    }
+    setIsLoading(false);    
+  };
+
+  useEffect(() => {
+    let freezeToken = token;
+
+    if (!freezeToken) {
+      const storedToken = refreshToken();
+      if (storedToken) {
+        freezeToken = storedToken;
+      }
+    }
+
+    onMount(pathname, freezeToken);
   }, [pathname, token]);
   
 
@@ -125,17 +160,23 @@ export const AuthProvider = (props: IAuthProviderProps) => {
     []
   );
 
-  useEffect(() => {
+  const refreshToken = () => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
       setToken(storedToken);
     }
+
+    return storedToken;
+  };
+
+  useEffect(() => {
+    refreshToken();
   }, []);
 
 
   return (
     <AuthContext.Provider
-      value={{ token, login: loginHandler, logout: logoutHandler, register: registerHandler }}
+      value={{ token, refreshToken, login: loginHandler, logout: logoutHandler, register: registerHandler }}
     >
       <AuthGuard>
         {props.children}

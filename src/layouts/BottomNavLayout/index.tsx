@@ -5,32 +5,42 @@ import BaseLayout from "../BaseLayout";
 import { BottomNav } from "../../components";
 import styles from "./index.module.css";
 
-interface ILoggedInLayoutProps {
+interface IBottomNavLayoutProps {
   children: React.ReactNode;
+  noNav?: boolean;
+  noLovesIcon?: boolean;
 }
 
 const pages = {
   right: {
-    urlIcon: "images/logo/logo-blue.png",
-    url: "/login",
+    urlIcon: "images/icon/profile-icon.png",
+    url: "/profile",
     altImg: "right button",
   },
   middle: {
-    urlIcon: "images/logo/logo-loves.png",
-    url: "/",
+    urlIcon: "images/icon/pair-icon.png",
+    url: "/pair",
     altImg: "middle button",
   },
   left: {
-    urlIcon: "images/logo/logo-pink-circle.png",
-    url: "/register",
+    urlIcon: "images/icon/channel-icon.png",
+    url: "/channel",
     altImg: "left button",
   }
 };
 
-const LoggedInLayout = (props: ILoggedInLayoutProps) => {
-  const { children } = props;
+const BottomNavLayout = (props: IBottomNavLayoutProps) => {
+  const { children, noNav, noLovesIcon } = props;
 
   const router = useNavigate();
+
+  if (noNav) {
+    return (
+      <BaseLayout>
+        {children}
+      </BaseLayout>
+    );
+  }
 
   return (
     <BaseLayout>
@@ -52,10 +62,11 @@ const LoggedInLayout = (props: ILoggedInLayoutProps) => {
             onClick: () => router(pages.right.url),
             altImg: pages.right.altImg,
           }}
+          noLovesIcon={noLovesIcon}
         />
       </div>
     </BaseLayout>
   );
 };
 
-export default LoggedInLayout;
+export default BottomNavLayout;
