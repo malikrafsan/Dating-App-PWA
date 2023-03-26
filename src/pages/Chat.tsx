@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { LoggedInLayout } from "../layouts";
+import { BottomNavLayout } from "../layouts";
 import { getUsersChat, IUserWithKey } from "../api/chat";
 import { Link } from "react-router-dom";
 import { VStack, Box } from "@chakra-ui/react";
@@ -18,7 +18,7 @@ const Chat = () => {
   }, []);
 
   return (
-    <LoggedInLayout >
+    <BottomNavLayout>
       <div>
         <VStack>
           {users.map(u => {
@@ -35,9 +35,8 @@ const Chat = () => {
           })}
 
         </VStack>
-
       </div>
-    </LoggedInLayout>
+    </BottomNavLayout>
   );
 };
 

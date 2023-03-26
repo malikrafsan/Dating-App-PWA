@@ -1,7 +1,7 @@
 import React, { useEffect, useState, MouseEventHandler } from "react";
 
 import { HeaderProfile, StaticField, InputField, TextAreaField, SelectField, UpdatableImage, UseWarning } from "../components/";
-import { BaseLayout } from "../layouts";
+import { BottomNavLayout } from "../layouts";
 import { User } from "../api";
 import { MdCameraAlt as Camera, MdOutlineAddCircle as Add, MdCancel as Cancel, MdLogout } from "react-icons/md";
 import {
@@ -185,7 +185,7 @@ const Profile = () => {
 
 
   return (
-    <BaseLayout>
+    <BottomNavLayout noLovesIcon>
       <WarningModal/>
       <Center h="100%" py={20} flexDir="column" justifyContent="flex-start">
         <HeaderProfile state={state} setState={setState} />
@@ -287,7 +287,7 @@ const Profile = () => {
           </>
         }
       </Center>
-    </BaseLayout>
+    </BottomNavLayout>
   );
 };
 

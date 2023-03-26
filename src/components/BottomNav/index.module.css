@@ -1,60 +1,35 @@
-.padder {
-  width: 100%;
-  height: 80px;
-}
-
 .container {
-  width: calc(100% + 10px);
-  left: -5px;
-  position: absolute;
-  bottom: -5px;
-}
-
-.background {
-  width: 100%;
-}
-
-.btns {
-  top: 0;
-  position: absolute;
-  height: 100%;
-  width: 100%;
+  background-color: white;
+  height: 80px;
   display: flex;
-  color: red;
   justify-content: space-around;
-  align-items: center;
-}
-
-.leftBtn,
-.rightBtn {
-  width: 50px;
-  height: 50px;
-}
-
-.middleBtn {
-  width: 0;
-  height: 0;
-}
-
-.middleBtn {
   position: relative;
+  z-index: 3;
+  padding: 14px 0;
 }
 
-.containerMiddleBtn {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #9374ff;
+.elmt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 3;
+}
+
+.elmt:hover {
+  cursor: pointer;
+}
+
+.elmt img {
   border-radius: 50%;
-  padding: 8px;
-  width: 70px;
-  height: 70px;
+  height: 100%;
+  aspect-ratio: 1 / 1;
 }
 
-.leftBtn img,
-.rightBtn img,
-.middleBtn img {
-  width: 100%;
-  height: 100%;
+.lovesIcon {
+  z-index: 0;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-55%) rotate(15.65deg);
 }

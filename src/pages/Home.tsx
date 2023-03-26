@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 
 import { Button } from "@chakra-ui/react";
 
-import { LoggedInLayout } from "../layouts";
+import { BottomNavLayout } from "../layouts";
 import styles from "../styles/Home.module.css";
 import { ThemeContextProvider } from "../context-providers";
 
@@ -36,7 +36,7 @@ const Home = () => {
   };
 
   return (
-    <LoggedInLayout>
+    <BottomNavLayout>
       <div className="Home">
         <div>Theme: {theme}</div>
         <button
@@ -85,7 +85,7 @@ const Home = () => {
           })
         }
       </div>
-    </LoggedInLayout>
+    </BottomNavLayout>
   );
 };
 

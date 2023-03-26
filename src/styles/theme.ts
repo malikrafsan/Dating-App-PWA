@@ -25,7 +25,7 @@ const theme = extendTheme({
   styles: {
     global: {
       body: {
-        bg: "white",
+        bg: "black",
         color: "blue.dark",
       },
       "#app": {
