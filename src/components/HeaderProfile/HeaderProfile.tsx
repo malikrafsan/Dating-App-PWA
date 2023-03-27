@@ -11,6 +11,7 @@ import { Icon } from "@chakra-ui/react";
 import { MdArrowBack } from "react-icons/md";
 import { RiEdit2Fill as Edit } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
+import { useNavigate } from "react-router-dom";
 
 interface HeaderProfileProps {
   state: string;
@@ -21,7 +22,7 @@ const HeaderProfile: FC<HeaderProfileProps> = ({
   state,
   setState,
 }) => {
-
+  const navigate = useNavigate();
   const label = state === "EDITPHOTO" ? "Edit Photo" : "My Profile";
   
   return (
@@ -38,7 +39,7 @@ const HeaderProfile: FC<HeaderProfileProps> = ({
       <Box w="72px" h="40px">
         {state === "VIEW" ? (
           <Button bg="transparent">
-            <Icon as={MdArrowBack} w={6} h={6} />
+            <Icon as={MdArrowBack} w={6} h={6} onClick={() => navigate("/pair")} />
           </Button>
         ) : (
           <Button bg="transparent" onClick={() => setState("VIEW")}>

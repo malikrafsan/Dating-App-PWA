@@ -25,7 +25,7 @@ interface UpdatableImageProps {
   isSquare?: boolean;
   w?: string;
   h?: string;
-  handleUpdate: (val: FormData, key: string) => void;
+  handleUpdate?: (file: File | null) => void;
 }
 
 const UpdatableImage: FC<UpdatableImageProps> = ({
@@ -51,6 +51,7 @@ const UpdatableImage: FC<UpdatableImageProps> = ({
     const objectUrl = URL.createObjectURL(selectedFile);
     setPreview(objectUrl);
 
+    handleUpdate && handleUpdate(selectedFile);
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedFile]);
 
@@ -59,11 +60,9 @@ const UpdatableImage: FC<UpdatableImageProps> = ({
       setSelectedFile(undefined);
       return;
     }
+
     setSelectedFile(e.target.files[0]);
     setIsRemoved(false);
-    const formData = new FormData();
-    formData.append("file", e.target.files[0]);
-    handleUpdate(formData, id);
   };
 
   return (
@@ -112,7 +111,7 @@ const UpdatableImage: FC<UpdatableImageProps> = ({
                 onClose();
               }}><Icon as={Upload} /> Change Photo</Button>
               <Button onClick={() => {
-                handleUpdate(new FormData(), id);
+                handleUpdate && handleUpdate(null);
                 selectedFile && setSelectedFile(undefined);
                 setIsRemoved(true);
                 onClose();
@@ -124,6 +123,5 @@ const UpdatableImage: FC<UpdatableImageProps> = ({
     </>
   );
 };
-  
+
 export default UpdatableImage;
-  
