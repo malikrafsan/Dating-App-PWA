@@ -18,11 +18,12 @@ const login = async (username: string, password: string) => {
 
 };
 
-const register = async (email: string, username: string, password: string) => {
+const register = async (email: string, username: string, password: string, univ_slug: string) => {
   const { data } = await api.post("/auth/register", {
     email,
     username,
     password,
+    univ_slug
   });
   return data;
 };

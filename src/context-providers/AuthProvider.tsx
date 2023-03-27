@@ -13,7 +13,7 @@ type AuthContextType = {
   refreshToken: () => string | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
-  register: (email: string, username: string, password: string) => Promise<void>;
+  register: (email: string, username: string, password: string, univ_slug: string) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType>({
@@ -151,8 +151,8 @@ export const AuthProvider = (props: IAuthProviderProps) => {
   }, []);
 
   const registerHandler = useCallback(
-    async (email: string, username: string, password: string) => {
-      const res = await Auth.register(email, username, password);
+    async (email: string, username: string, password: string, univ_slug:string) => {
+      const res = await Auth.register(email, username, password, univ_slug);
       if (res && res.data?.token) {
         setToken(res.data?.token);
       }
