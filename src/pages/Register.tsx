@@ -1,6 +1,6 @@
 import React, { useState, useEffect, MouseEventHandler } from "react";
 import { BaseLayout } from "../layouts";
-import { InputField } from "../components/";
+import { FullPageLoading, InputField, SelectField } from "../components/";
 import { useAuth } from "../context-providers/AuthProvider";
 
 import {
@@ -14,6 +14,7 @@ import {
   Center,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import university from "../api/university";
 
 
 const Register = () => {
@@ -22,9 +23,15 @@ const Register = () => {
     username: "",
     password: "",
     confirmPassword: "",
+    university: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessagePassword, setErrorMessagePassword] = useState("");
   const [errorMessageEmail, setErrorMessageEmail] = useState("");
+  const [universityData, setUniversityData] = useState<any>([]);
+
+  const [options, setOptions] = useState<string[]>();
+
   const navigate = useNavigate();
 
   const { register } = useAuth();
@@ -43,8 +50,14 @@ const Register = () => {
     if (!isValidEmail() || !isMatchPassword()) {
       return;
     }
+    if (options && !options?.includes(formValues.university)) {
+      setErrorMessage("Please select a valid university");
+      return;
+    }
 
-    register(formValues.email, formValues.username, formValues.password)
+    const university = universityData.find((item: any) => item.name === formValues.university).slug;
+
+    register(formValues.email, formValues.username, formValues.password, university)
       .then((_) => {
         navigate("/login");
       })
@@ -75,11 +88,20 @@ const Register = () => {
 
   useEffect (() => {
     if (isMatchPassword()) {
-      setErrorMessage("");
+      setErrorMessagePassword("");
     } else {
-      setErrorMessage("Password does not match");
+      setErrorMessagePassword("Password does not match");
     }
   }, [formValues.password, formValues.confirmPassword]);
+
+  useEffect(() => {
+    university.getUniversities().then((res) => {
+      setUniversityData(res.data.universities);
+      setOptions(res.data.universities.map((item: any) => item.name));
+    });
+  }, []);
+
+  if (!options) return <FullPageLoading/>;
 
   return (
     <BaseLayout>
@@ -114,6 +136,13 @@ const Register = () => {
             label="Confirm Password"
             value={formValues.confirmPassword}
             setValue={(val) => handleChange(val, "confirmPassword")}
+            errorMessage={errorMessagePassword}
+          />
+          <SelectField 
+            options={options} 
+            label="University"
+            value={formValues.university}
+            setValue={(val) => handleChange(val, "university")}
             errorMessage={errorMessage}
           />
         </VStack>

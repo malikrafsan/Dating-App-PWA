@@ -9,7 +9,6 @@ import UpdatableImage from "./Image/UpdatableImage";
 import FullPageLoading from "./FullPageLoading";
 import UseWarning from "./WarningModal";
 
-
 export {
   ReloadPrompt,
   BottomNav,
@@ -20,5 +19,5 @@ export {
   HeaderProfile,
   UpdatableImage,
   FullPageLoading,
-  UseWarning
+  UseWarning,
 };
