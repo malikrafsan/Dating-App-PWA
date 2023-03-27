@@ -32,3 +32,35 @@ export type SelfData = {
     role: Permission;
   }
 }
+
+export type ProfileData = {
+  user: {
+    id: number;
+    name: string;
+    description: string;
+    dateOfBirth: string;
+    latitude: number;
+    longitude: number;
+    sex: string;
+    profileUrl: string; //FIXME: Apus ini klo di backend udah diapus
+    account: {
+      email: string;
+      username: string;
+    }
+    userPhoto: {
+      id: string;
+      fileId: string;
+      userId: number;
+      index: number
+    }[]
+    userTag: {
+      id: number;
+      userId: number;
+      tagId: number;
+      tag: {
+        id: number;
+        tag: string;
+      }
+    }[];
+  }
+}

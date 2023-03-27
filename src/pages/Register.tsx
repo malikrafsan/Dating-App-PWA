@@ -16,7 +16,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import university from "../api/university";
 
-
 const Register = () => {
   const [formValues, setFormValues] = useState({
     email: "",
