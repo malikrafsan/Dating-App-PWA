@@ -48,6 +48,7 @@ const updateUniversity = async (slug: string, param: IUpdateUniversityParams) =>
 };
 
 const updateUniversityLogo = async (slug: string, logo: FormData) => {
+  console.log(logo);
   const { data } = await api.put("/university/" + slug + "/logo", logo, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
