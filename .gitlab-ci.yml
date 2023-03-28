@@ -23,7 +23,6 @@ cache:
     - .yarn
 
 before_script:
-  - apt-get update -qq && apt-get install
   - yarn install
 
 stages:          # List of stages for jobs, and their order of execution

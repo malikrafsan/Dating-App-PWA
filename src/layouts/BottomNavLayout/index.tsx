@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import BaseLayout from "../BaseLayout";
 import { BottomNav } from "../../components";
 import styles from "./index.module.css";
+import { Box } from "@chakra-ui/react";
 
 interface IBottomNavLayoutProps {
   children: React.ReactNode;
@@ -44,8 +45,8 @@ const BottomNavLayout = (props: IBottomNavLayoutProps) => {
 
   return (
     <BaseLayout>
-      <div className={styles.container}>
-        <div className={styles.childrenContainer}>{children}</div>
+      <Box className={styles.container}>
+        <Box className={styles.childrenContainer}>{children}</Box>
         <BottomNav
           left={{
             urlIcon: pages.left.urlIcon,
@@ -64,7 +65,7 @@ const BottomNavLayout = (props: IBottomNavLayoutProps) => {
           }}
           noLovesIcon={noLovesIcon}
         />
-      </div>
+      </Box>
     </BaseLayout>
   );
 };

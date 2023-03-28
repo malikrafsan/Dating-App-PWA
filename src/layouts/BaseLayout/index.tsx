@@ -3,6 +3,7 @@ import React from "react";
 import { ReloadPrompt } from "../../components";
 import styles from "./index.module.css";
 import { ThemeContextProvider } from "../../context-providers";
+import { Box } from "@chakra-ui/react";
 
 interface IBaseLayoutProps {
   children: React.ReactNode;
@@ -15,10 +16,10 @@ const BaseLayout = (props: IBaseLayoutProps) => {
 
   return (
     <ThemeProvider>
-      <div className={styles.container}>
+      <Box overflowX="hidden" className={styles.container}>
         {children}
         <ReloadPrompt />
-      </div>
+      </Box>
     </ThemeProvider>
   );
 };
