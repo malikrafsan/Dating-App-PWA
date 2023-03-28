@@ -1,11 +1,11 @@
 import React from "react";
-
 import styles from "./index.module.css";
+import { Icon } from "@chakra-ui/react";
+import type { IconType } from "react-icons";
 
 interface IBtnNav {
-  urlIcon: string;
+  icon: IconType;
   onClick: () => void;
-  altImg?: string;
 }
 
 export interface IBottomNavProps {
@@ -30,7 +30,7 @@ const BottomNav = (props: IBottomNavProps) => {
         {elmts.map(e => {
           return (
             <div key={e.key} onClick={e.onClick} className={styles.elmt}>
-              <img src={e.urlIcon} alt={e.altImg} />
+              <Icon as={e.icon} boxSize={6} /> {/* <img src={e.urlIcon} alt={e.altImg} /> */}
             </div>
           );
         })}

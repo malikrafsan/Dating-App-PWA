@@ -41,7 +41,8 @@
     "run-build-sw-claims-destroy": "cross-env DEBUG=vite-plugin-pwa:* BASE_URL=/ SOURCE_MAP=true SW_DESTROY=true CLAIMS=true SW=true vite build",
     "run-build-sw-reloadsw-claims-destroy": "cross-env DEBUG=vite-plugin-pwa:* BASE_URL=/ SOURCE_MAP=true SW_DESTROY=true CLAIMS=true RELOAD_SW=true SW=true vite build",
     "serve": "serve dist",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx,.vue src"
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx,.vue src",
+    "lint:fix": "eslint --ext .js,.jsx,.ts,.tsx,.vue src --fix"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.17",

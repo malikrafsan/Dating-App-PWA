@@ -5,6 +5,9 @@ import BaseLayout from "../BaseLayout";
 import { BottomNav } from "../../components";
 import styles from "./index.module.css";
 import { Box } from "@chakra-ui/react";
+import { GiLovers } from "react-icons/gi";
+import {CgProfile} from "react-icons/cg";
+import {BsFillChatDotsFill} from "react-icons/bs";
 
 interface IBottomNavLayoutProps {
   children: React.ReactNode;
@@ -13,20 +16,17 @@ interface IBottomNavLayoutProps {
 }
 
 const pages = {
-  right: {
-    urlIcon: "images/icon/profile-icon.png",
+  left: {
+    icon: CgProfile,
     url: "/profile",
-    altImg: "right button",
   },
   middle: {
-    urlIcon: "images/icon/pair-icon.png",
+    icon: GiLovers,
     url: "/pair",
-    altImg: "middle button",
   },
-  left: {
-    urlIcon: "images/icon/channel-icon.png",
-    url: "/channel",
-    altImg: "left button",
+  right: {
+    icon: BsFillChatDotsFill,
+    url: "/chat",
   }
 };
 
@@ -49,19 +49,16 @@ const BottomNavLayout = (props: IBottomNavLayoutProps) => {
         <Box className={styles.childrenContainer}>{children}</Box>
         <BottomNav
           left={{
-            urlIcon: pages.left.urlIcon,
+            icon: pages.left.icon,
             onClick: () => router(pages.left.url),
-            altImg: pages.left.altImg,
           }}
           middle={{
-            urlIcon: pages.middle.urlIcon,
+            icon: pages.middle.icon,
             onClick: () => router(pages.middle.url),
-            altImg: pages.middle.altImg,
           }}
           right={{
-            urlIcon: pages.right.urlIcon,
+            icon: pages.right.icon,
             onClick: () => router(pages.right.url),
-            altImg: pages.right.altImg,
           }}
           noLovesIcon={noLovesIcon}
         />
