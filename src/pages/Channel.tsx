@@ -29,7 +29,9 @@ const Channel = () => {
     onMount();
   }, []);
 
-  const handleUpdatePhoto = (val: File, _: string) => {
+  const handleUpdatePhoto = (val: File | null) => {
+    if (!val) return;
+
     const formData = new FormData();
     formData.append("file", val);
     setLogo(formData);

@@ -7,6 +7,7 @@ import { SelfData } from "../types/response";
 import { MsgType } from "../types/struct";
 import { v4 as uuid } from "uuid";
 import { VStack, Box } from "@chakra-ui/react";
+import { BottomNavLayout } from "../layouts";
 
 const ChatDetail = () => {
   const [self, setSelf] = useState<SelfData>();
@@ -21,8 +22,8 @@ const ChatDetail = () => {
   }
 
   const onMount = async (key: string) => {
-    const {data} = await Auth.self();
-    console.log("data",data);
+    const { data } = await Auth.self();
+    console.log("data", data);
     setSelf(data);
 
     const docRef = doc(db, "chats", key);
@@ -93,31 +94,33 @@ const ChatDetail = () => {
 
 
   return (
-    <div>
-      <h1>Chat with {key}</h1>
+    <BottomNavLayout>
       <div>
-        <h1>chat content</h1>
-        <VStack>
-          {
-            msgs.map((e) => {
-              return (
-                <Box bg='tomato' style={{
-                  width: "100%",
-                }} key={e.id}>
-                  <h1>sender: {e.sender}</h1>
-                  <h2>msg: {e.msg}</h2>
-                </Box>
-              );
-            })
-          }
-        </VStack>
-      </div>
-      <div>
-        <input type="text" value={inputMsg} onChange={(e) => setInputMsg(e.target.value)} />
-        <button onClick={send}>Send</button>
-      </div>
+        <h1>Chat with {key}</h1>
+        <div>
+          <h1>chat content</h1>
+          <VStack>
+            {
+              msgs.map((e) => {
+                return (
+                  <Box bg='tomato' style={{
+                    width: "100%",
+                  }} key={e.id}>
+                    <h1>sender: {e.sender}</h1>
+                    <h2>msg: {e.msg}</h2>
+                  </Box>
+                );
+              })
+            }
+          </VStack>
+        </div>
+        <div>
+          <input type="text" value={inputMsg} onChange={(e) => setInputMsg(e.target.value)} />
+          <button onClick={send}>Send</button>
+        </div>
 
-    </div>
+      </div>
+    </BottomNavLayout>
   );
 };
 
