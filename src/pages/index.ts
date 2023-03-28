@@ -6,5 +6,16 @@ import Register from "./Register";
 import Profile from "./Profile";
 import Chat from "./Chat";
 import ChatDetail from "./ChatDetail";
+import Pair from "./Pair";
 
-export { Home, About, Login, Register, Profile, Chat, ChatDetail, Channel };
+export {
+  Home,
+  About,
+  Login,
+  Register,
+  Profile,
+  Chat,
+  ChatDetail,
+  Channel,
+  Pair,
+};

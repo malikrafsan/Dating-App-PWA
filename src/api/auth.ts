@@ -1,18 +1,11 @@
-import axios from "axios";
 import { Response, SelfData } from "../types/response";
+import { api } from "./api";
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL as string,
-});
 
 const login = async (username: string, password: string) => {
   const { data } = await api.post("/auth/login", {
     username,
     password,
-  }, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    }
   });
   return data;
 
@@ -29,11 +22,7 @@ const register = async (email: string, username: string, password: string, univ_
 };
 
 const self = async () => {
-  const { data } = await api.get("/auth/self", {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    }
-  });
+  const { data } = await api.get("/auth/self");
   return data as Response<SelfData>;
 };
 
