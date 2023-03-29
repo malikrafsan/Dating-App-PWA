@@ -62,5 +62,9 @@ export type ProfileData = {
         tag: string;
       }
     }[];
+    universitySlug: string;
+    university: {
+      name: string;
+    }
   }
 }

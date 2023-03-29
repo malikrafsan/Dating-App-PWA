@@ -16,6 +16,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import university from "../api/university";
 
+const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSc2FzEBFwfUOsfzLrO677LBvitz1UBOOmQmQH4khSJQTBCjng/viewform";
+
 const Register = () => {
   const [formValues, setFormValues] = useState({
     email: "",
@@ -143,6 +145,10 @@ const Register = () => {
             value={formValues.university}
             setValue={(val) => handleChange(val, "university")}
             errorMessage={errorMessage}
+            additionalOption={{
+              value: "Other",
+              onClick: () => window.open(formUrl, "_blank"),
+            }}
           />
         </VStack>
         <Button onClick={handleRegister} w="60%" variant="solidBlue">

@@ -17,7 +17,7 @@ const Pair = () => {
   
   const onPair = useCallback((id: number, isPair: boolean) => {
     // remove first item
-    setData((prev) => prev?.slice(1));
+    setData((prev) => prev?.slice(1).reverse());
     // work in background
     setFetchCount((prev) => (prev + 1));
     if (isPair) {
