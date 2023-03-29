@@ -18,6 +18,10 @@ interface Props {
   label: string;
   setValue: (value: string) => void;
   errorMessage?: string;
+  additionalOption?: {
+    value: string;
+    onClick: () => void;
+  }
 }
 
 export default function SelectFieldRio({ 
@@ -25,14 +29,26 @@ export default function SelectFieldRio({
   value : _,
   label,
   setValue,
-  errorMessage
+  errorMessage,
+  additionalOption,
 }: Props) {
   const [searchValue, setSearchValue] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
-  const [isActive, setIsActive] = useState(searchValue !== "");
+  const [isOpen, setIsOpenWrapped] = useState(false);
+  const [isActive, setIsActiveWrapped] = useState(searchValue !== "");
+
+  const setIsOpen = (isOpen: boolean) => {
+    console.log("setIsOpen: ", isOpen);
+    setIsOpenWrapped(isOpen);
+  };
+
+  const setIsActive = (isActive: boolean) => {
+    console.log("setIsActive: ", isActive);
+    setIsActiveWrapped(isActive);
+  };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
+    setValue(event.target.value);
     setIsOpen(true);
   };
 
@@ -90,10 +106,16 @@ export default function SelectFieldRio({
         </Text>
         <Input
           value={searchValue}
-          onFocus={() => setIsActive(true)}
+          onFocus={() => {
+            setIsOpen(true);
+            setIsActive(true);
+          }}
           onChange={handleSearchChange}
           onClick={() => setIsOpen(true)}
-          onBlur={() => (searchValue === "" ? setIsActive(false) : setIsActive(true))}
+          onBlur={() => {
+            (searchValue === "" ? setIsActive(false) : setIsActive(true));
+            setIsOpen(false);
+          }}
           borderRadius="full"
           border="1px solid"
           borderColor="blue.secondary"
@@ -109,6 +131,7 @@ export default function SelectFieldRio({
             mt={2}
             maxH="80vh"
             overflowY="auto"
+            style={{zIndex: 6}}
             onBlur={() => setIsOpen(false)}
           >
             {filteredOptions.map((option) => (
@@ -122,6 +145,19 @@ export default function SelectFieldRio({
                 {option}
               </ListItem>
             ))}
+            {
+              additionalOption && (
+                <ListItem
+                  key={additionalOption.value}
+                  px={4}
+                  py={2}
+                  _hover={{ bg: "gray.100" }}
+                  onClick={additionalOption.onClick}
+                >
+                  {additionalOption.value}
+                </ListItem>
+              )
+            }
           </List>
         )}
       </Box>

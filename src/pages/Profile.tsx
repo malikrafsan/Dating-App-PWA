@@ -30,7 +30,7 @@ interface PhotoProfileProps {
   mainPhoto: string | null;
 }
 
-const PhotoProfile = ({setState, mainPhoto}: PhotoProfileProps) => {
+const PhotoProfile = ({ setState, mainPhoto }: PhotoProfileProps) => {
   return (
     <Box w="200px" h="200px" position="relative">
       <Image
@@ -94,7 +94,7 @@ const Profile = () => {
   });
 
   const [editPhotoValues, setEditPhotoValues] = useState<
-    [File | null | undefined, File | null| undefined, File | null| undefined, File | null| undefined]
+    [File | null | undefined, File | null | undefined, File | null | undefined, File | null | undefined]
   >([undefined, undefined, undefined, undefined]);
 
   const { logout } = useAuth();
@@ -208,7 +208,7 @@ const Profile = () => {
 
   return (
     <BottomNavLayout noLovesIcon>
-      <WarningModal/>
+      <WarningModal />
       <Center h="100%" py={20} flexDir="column" justifyContent="flex-start">
         <HeaderProfile state={state} setState={setState} />
         {state === "VIEW" && (
@@ -226,6 +226,7 @@ const Profile = () => {
                 y.o
               </Text>
               <Text color="gray.900">{profileValues.user.sex}</Text>
+              <Text color="gray.900">{profileValues.user.university.name}</Text>
             </VStack>
             <VStack mt={4} w="80%" gap={2} alignItems="flex-start">
               <Text fontSize="xl" fontWeight="bold" color="black">
@@ -297,7 +298,7 @@ const Profile = () => {
                 setValue={(val) => handleChangeEdit(val, "name")}
               />
               <SelectField
-                label="Sex"
+                label="Gender"
                 value={editValues.sex}
                 setValue={(val) => handleChangeEdit(val, "sex")}
                 options={sexValues}

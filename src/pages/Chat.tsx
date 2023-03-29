@@ -3,6 +3,7 @@ import { BottomNavLayout } from "../layouts";
 import { getUsersChat, IUserWithKey } from "../api/chat";
 import { Link } from "react-router-dom";
 import { VStack, Box } from "@chakra-ui/react";
+import styles from "../styles/pages/Chat.module.css";
 
 const Chat = () => {
   const [users, setUsers] = useState<IUserWithKey[]>([]);
@@ -19,7 +20,7 @@ const Chat = () => {
 
   return (
     <BottomNavLayout>
-      <div>
+      <div className={styles.container}>
         <VStack>
           {users.map(u => {
             return (
