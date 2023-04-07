@@ -1,6 +1,6 @@
 import React, { useState, useEffect, MouseEventHandler } from "react";
 import { BaseLayout } from "../layouts";
-import { FullPageLoading, InputField, SelectField } from "../components/";
+import { FullPageLoading, InputField, DropdownField } from "../components/";
 import { useAuth } from "../context-providers/AuthProvider";
 
 import {
@@ -139,16 +139,19 @@ const Register = () => {
             setValue={(val) => handleChange(val, "confirmPassword")}
             errorMessage={errorMessagePassword}
           />
-          <SelectField 
-            options={options} 
-            label="University"
+          <DropdownField
             value={formValues.university}
-            setValue={(val) => handleChange(val, "university")}
-            errorMessage={errorMessage}
-            additionalOption={{
-              value: "Other",
-              onClick: () => window.open(formUrl, "_blank"),
+            onChange={(val) => {
+              if (!val) handleChange("", "university");
+
+              handleChange(val, "university");
             }}
+            onCreateOption={() => {
+              window.open(formUrl, "_blank");
+            }}
+            label="University"
+            options={options}
+            errorMessage={errorMessage}
           />
         </VStack>
         <Button onClick={handleRegister} w="60%" variant="solidBlue">

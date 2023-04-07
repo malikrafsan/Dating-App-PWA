@@ -1,6 +1,6 @@
 import React, { useEffect, useState, MouseEventHandler } from "react";
 
-import { HeaderProfile, StaticField, InputField, TextAreaField, SelectField, UpdatableImage, UseWarning, FullPageLoading } from "../components/";
+import { HeaderProfile, StaticField, InputField, DropdownField, TextAreaField, UpdatableImage, UseWarning, FullPageLoading } from "../components/";
 import { BottomNavLayout } from "../layouts";
 import { User } from "../api";
 import {
@@ -297,10 +297,10 @@ const Profile = () => {
                 value={editValues.name}
                 setValue={(val) => handleChangeEdit(val, "name")}
               />
-              <SelectField
+              <DropdownField 
                 label="Gender"
                 value={editValues.sex}
-                setValue={(val) => handleChangeEdit(val, "sex")}
+                onChange={(val) => handleChangeEdit(val, "sex")}
                 options={sexValues}
               />
               <InputField
