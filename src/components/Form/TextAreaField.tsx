@@ -9,12 +9,16 @@ interface TextAreaFieldProps {
   label: string;
   value: string;
   setValue: (value: string) => void;
+  placeholder?: string;
+  minH?: string;
 }
 
 const TextAreaField: FC<TextAreaFieldProps> = ({
   label,
   value,
   setValue,
+  placeholder,
+  minH,
 }) => {
   const [isActive, setIsActive] = useState(value !== "");
 
@@ -65,7 +69,8 @@ const TextAreaField: FC<TextAreaFieldProps> = ({
           backgroundColor="white"
           resize="none"
           overflow="hidden"
-          minH="100px"
+          minH={minH || "100px"}
+          placeholder={placeholder}
         />
       </Box>
     </Box>

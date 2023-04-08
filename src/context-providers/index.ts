@@ -1,3 +1,4 @@
 import ThemeContextProvider from "./ThemeContextProvider";
+import { MessagingProvider } from "./MessagingProvider";
 
-export { ThemeContextProvider };
+export { ThemeContextProvider, MessagingProvider };

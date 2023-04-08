@@ -44,13 +44,11 @@ const claims = process.env.CLAIMS === 'true'
 const reload = process.env.RELOAD_SW === 'true'
 const selfDestroying = process.env.SW_DESTROY === 'true'
 
-if (process.env.SW === 'true') {
   pwaOptions.srcDir = 'src'
-  pwaOptions.filename = claims ? 'claims-sw.ts' : 'prompt-sw.ts'
+  pwaOptions.filename = 'firebase-messaging-sw.ts'
   pwaOptions.strategies = 'injectManifest'
   ;(pwaOptions.manifest as Partial<ManifestOptions>).name = 'PWA Inject Manifest'
   ;(pwaOptions.manifest as Partial<ManifestOptions>).short_name = 'PWA Inject'
-}
 
 if (claims)
   pwaOptions.registerType = 'autoUpdate'
@@ -75,6 +73,5 @@ export default defineConfig({
   plugins: [
     reactRefresh(),
     VitePWA(pwaOptions),
-    replace(replaceOptions),
   ],
 })

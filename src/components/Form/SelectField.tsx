@@ -37,12 +37,10 @@ export default function SelectFieldRio({
   const [isActive, setIsActiveWrapped] = useState(searchValue !== "");
 
   const setIsOpen = (isOpen: boolean) => {
-    console.log("setIsOpen: ", isOpen);
     setIsOpenWrapped(isOpen);
   };
 
   const setIsActive = (isActive: boolean) => {
-    console.log("setIsActive: ", isActive);
     setIsActiveWrapped(isActive);
   };
 

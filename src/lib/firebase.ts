@@ -1,21 +1,13 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getStorage } from "firebase/storage";
-import { getFirestore } from "firebase/firestore";
+import {getMessaging } from "firebase/messaging";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyCOj_WY3ikTxraJ00i_YchOuLrRXTgE9K0",
-  authDomain: "cinlok-chat-app.firebaseapp.com",
-  projectId: "cinlok-chat-app",
-  storageBucket: "cinlok-chat-app.appspot.com",
-  messagingSenderId: "535625721148",
-  appId: "1:535625721148:web:ac8f019594eb05b552aa39"
-};
+const configString = import.meta.env.VITE_FIREBASE_CONFIG_JSON as string;
+const firebaseConfig = JSON.parse(configString);
 
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
-export const storage = getStorage();
-export const db = getFirestore();
+initializeApp(firebaseConfig);
+export const messaging = getMessaging();

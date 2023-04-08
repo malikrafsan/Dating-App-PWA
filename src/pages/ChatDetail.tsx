@@ -1,125 +1,270 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router";
-import { Auth } from "../api";
-import { db } from "../lib/firebase";
-import { doc, onSnapshot, getDoc, setDoc } from "firebase/firestore";
-import { SelfData } from "../types/response";
-import { MsgType } from "../types/struct";
-import { v4 as uuid } from "uuid";
-import { VStack, Box } from "@chakra-ui/react";
+import React, { useEffect, useState, useRef } from "react";
 import { BottomNavLayout } from "../layouts";
+import { Link } from "react-router-dom";
+import { VStack, HStack, Box, Text, Image, Icon, Button } from "@chakra-ui/react";
+import { TextAreaField } from "../components";
+
+import { RiSendPlaneFill as Send } from "react-icons/ri";
+import { MdArrowBackIosNew as Back } from "react-icons/md";
+
+import { useParams } from "react-router";
+
+import { Chat } from "../api";
+
+// import useMessaging 
+import { onMessageListener } from "../context-providers/MessagingProvider";
+
 
 const ChatDetail = () => {
-  const [self, setSelf] = useState<SelfData>();
-  const [msgs, setMsgs] = useState<MsgType[]>([]);
-  const [inputMsg, setInputMsg] = useState("");
+  const { getMessages, sendMessage } = Chat;
+  const { id } = useParams();
+  const bottomRef = useRef(null);
 
-  const navigate = useNavigate();
+  const [chatList, setChatList] = useState([]);
+  const [otherUser, setOtherUser] = useState({});
 
-  const { key } = useParams();
-  if (!key) {
-    navigate("/chat");
-  }
+  const onMount = async () => {
+    const result = await getMessages(id);
+    const user = result.data.data.messages.match.user2;
+    const otherUser = {
+      name: user.name,
+      photo: user.profileUrl,
+      university: user.universitySlug
+    };
+    setOtherUser(otherUser);
 
-  const onMount = async (key: string) => {
-    const { data } = await Auth.self();
-    console.log("data", data);
-    setSelf(data);
+    const chatList = result.data.data.messages.messages.map((chat) => {
+      return {
+        key: chat.id,
+        user: chat.senderId === parseInt(id) ? 2 : 1,
+        msg: chat.content,
+        timestamp: chat.timestamp,
+      };
+    });
+    setChatList(chatList);
 
-    const docRef = doc(db, "chats", key);
+  };
 
-    const getDocRes = await getDoc(docRef);
-    if (!getDocRes.exists()) {
-      await setDoc(doc(db, "chats", key), {
-        message: []
-      });
+
+  useEffect(() => {
+    onMount();
+  }, []);
+
+  onMessageListener().then((msg) => {
+    const msgId = msg.data.messageId;
+    const timestamp = msg.data.timestamp;
+    // const toId = msg.data.toId;
+    const fromId = msg.data.fromId;
+    const content = msg.data.text;
+    const newChatList = [
+      ...chatList,
+      {
+        key: msgId,
+        user: fromId === id ? 2 : 1, // lawan
+        msg: content,
+        timestamp: timestamp,
+      },
+    ];
+    setChatList(newChatList);
+  });
+
+  const [newMsg, setNewMsg] = useState("");
+  const handleSendMsg = () => {
+    try {
+      sendMessage(parseInt(id), newMsg);
+      const newChatList = [
+        ...chatList,
+        {
+          key: chatList.length + 1,
+          user: 1,
+          msg: newMsg,
+          timestamp: new Date().toISOString(),
+        },
+      ];
+      setChatList(newChatList);
+      setNewMsg("");
+    } catch (e) {
+      console.log(e);
     }
   };
 
   useEffect(() => {
-    if (!key) {
-      return;
-    }
+    bottomRef.current?.scrollIntoView({behavior: "smooth"});
+  }, [chatList]);
 
-    onMount(key);
 
-    const docRef = doc(db, "chats", key);
-    const unsub = onSnapshot(docRef, (doc) => {
-      const data = doc.data();
-      console.log("Current data: ", data);
-      if (!data) {
-        return;
-      }
+  const getDisplayedTime = (timestamp: string) => {
+    const date = new Date(timestamp);
+    const hour = date.getHours();
+    const minute = date.getMinutes();
 
-      const { message } = data;
-      const parsedMsgs = message.map((m: string) => JSON.parse(m));
-      setMsgs(parsedMsgs);
-    });
+    return `${hour}:${minute}`;
 
-    return () => {
-      unsub();
-    };
-  }, [key]);
-
-  const formatMsg = (msg: string, username: string) => {
-    const obj: MsgType = {
-      id: uuid(),
-      msg,
-      timestamp: new Date().getTime(),
-      sender: username,
-    };
-    return JSON.stringify(obj);
   };
 
-  const send = async () => {
-    if (!key || !self) {
-      return;
-    }
+  const getDisplayedDate = (timestamp: string) => {
+    const date = new Date(timestamp);
+    const year = date.getFullYear();
+    const month = date.toLocaleString("default", { month: "short" });
+    const day = date.getDate();
 
-    const getDocRes = await getDoc(doc(db, "chats", key));
-    if (!getDocRes.exists()) {
-      return;
-    }
-
-    const { message } = getDocRes.data();
-    console.log(message, self);
-    const formatted = formatMsg(inputMsg, self.account.username);
-
-    const newMessage = [...message, formatted];
-    console.log(newMessage);
-    await setDoc(doc(db, "chats", key), {
-      message: newMessage
-    });
+    const dates = `${month} ${day}, ${year}`;
+    return dates;
   };
-
 
   return (
     <BottomNavLayout>
-      <div>
-        <h1>Chat with {key}</h1>
-        <div>
-          <h1>chat content</h1>
+      <Box
+        background="blue.dark"
+        height="100vh - 80px"
+      >
+        <Box
+          height="100px"
+          p={4}
+          color="white"
+        >
+          <HStack
+            w="100%"
+            justifyContent="flex-start"
+            alignItems="center"
+          >
+            <Button
+              p={1}
+              background="transparent"
+            >
+              <Link to="/matchlist">
+                <Icon as={Back} w={8} h={8} />
+              </Link>
+            </Button>
+            <Box
+              w="20%"
+            >
+              <Image
+                src={otherUser.photo}
+                rounded="full"
+                boxSize="64px"
+                objectFit="cover"
+                boxShadow="0 25px 50px -12px rgba(87, 42, 180, 0.25);"
+              />
+            </Box>
+            <Box
+              w="65%"
+              textAlign="left"
+            >
+              <Text fontWeight="bold">{otherUser.name}</Text>
+              <Text>{otherUser.university}</Text>
+            </Box>
+          </HStack>
+        </Box>
+        
+        <Box
+          background="white"
+          borderTopRadius="30px"
+          overflow="scroll"
+          height="calc(100vh - 270px)"
+          boxShadow="0px -7px 20px 0px rgba(255, 128, 232, 0.25)"
+          p={4}
+          css={{
+            "&::-webkit-scrollbar": {
+              display: "none",
+            },
+          }}
+        >
           <VStack>
-            {
-              msgs.map((e) => {
-                return (
-                  <Box bg='tomato' style={{
-                    width: "100%",
-                  }} key={e.id}>
-                    <h1>sender: {e.sender}</h1>
-                    <h2>msg: {e.msg}</h2>
+            {chatList.map((chat: any) => (
+              <React.Fragment key={chat.key}>
+                {
+                  (chatList.indexOf(chat) === 0 || (
+                    getDisplayedDate(chatList[chatList.indexOf(chat) - 1].timestamp) !==
+                      getDisplayedDate(chat.timestamp))) && (
+                    <Text
+                      bg="gray.400"
+                      color="white"
+                      fontSize="xs"
+                      alignSelf="center"
+                      marginBottom={2}
+                      borderRadius="100px"
+                      px={2}
+                      py={1}
+                    >
+                      {getDisplayedDate(chat.timestamp)}
+                    </Text>
+                  )
+                }
+                <Box
+                  width="100%"
+                  p={1}
+                  display="flex"
+                  flexDirection={chat.user === 1 ? "row-reverse" : "row"}
+                  justifyContent="flex-start"
+                >
+                  <Box
+                    background={chat.user === 1 ? "blue.dark" : "gray.200"}
+                    color={chat.user === 1 ? "white" : "black"}
+                    padding={4}
+                    borderRadius="30px"
+                    borderBottomLeftRadius={chat.user === 2 ? "0" : "30px"}
+                    borderBottomRightRadius={chat.user === 1 ? "0" : "30px"}
+                    maxWidth="70%"
+                  >
+                    <Text>{chat.msg}</Text>
                   </Box>
-                );
-              })
-            }
+                  <Text
+                    color="gray.400"
+                    fontSize="xs"
+                    alignSelf="flex-end"
+                    marginLeft={2}
+                  >
+                    {getDisplayedTime(chat.timestamp)}
+                  </Text>
+                </Box>
+              </React.Fragment>
+            ))}
+            <div ref={bottomRef} />
           </VStack>
-        </div>
-        <div>
-          <input type="text" value={inputMsg} onChange={(e) => setInputMsg(e.target.value)} />
-          <button onClick={send}>Send</button>
-        </div>
+        </Box>
+        <Box
+          background="#F3EEFF"
+          padding={4}
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-between"
+          alignItems="flex-end"
+          position="absolute"
+          bottom="80px"
+          width="100%"
+        >
+          <Box
+            background="#F3EEFF"
+            width="85%"
+          >
+            <TextAreaField
+              label=""
+              value={newMsg}
+              setValue={(val) => setNewMsg(val)}
+              placeholder="Type your message here"
+              minH="10px"
+            />
 
-      </div>
+          </Box>
+          <Box
+            width="12%"
+            textAlign="center"
+            height="50px"
+          >
+            <Button
+              height="100%"
+              width="100%"
+              padding={0}
+              background="transparent"
+              onClick={handleSendMsg}
+            >
+              <Icon as={Send} w="2em" h="2em"/>
+            </Button>
+          </Box>
+        </Box>
+
+      </Box>
     </BottomNavLayout>
   );
 };
