@@ -60,6 +60,7 @@ const PERMISSIONS: PermissionData  = {
   "/channel": [ROLE.ADMIN],
   "/chat": [ROLE.USER, ROLE.ADMIN],
   "/pair": [ROLE.USER, ROLE.ADMIN],
+  "/matchlist": [ROLE.USER, ROLE.ADMIN],
 };
 
 interface IAuthGuardProps {

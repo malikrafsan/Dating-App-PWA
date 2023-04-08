@@ -4,9 +4,9 @@ import Channel from "./Channel";
 import Login from "./Login";
 import Register from "./Register";
 import Profile from "./Profile";
-import Chat from "./Chat";
-import ChatDetail from "./ChatDetail";
 import Pair from "./Pair";
+import MatchList from "./MatchList";
+import ChatDetail from "./ChatDetail";
 
 export {
   Home,
@@ -14,8 +14,8 @@ export {
   Login,
   Register,
   Profile,
-  Chat,
-  ChatDetail,
   Channel,
   Pair,
+  MatchList,
+  ChatDetail,
 };

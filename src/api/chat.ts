@@ -1,26 +1,25 @@
-import { IBaseResponse, IUser } from "../interfaces";
-import axios from "axios";
+import {api} from "./api";
 
+const upsertToken = (token: string) => {
+  return api.put("/chat/token", { token });
+};
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL as string,
-});
+const getMatchList = () => {
+  return api.get("/chat");
+};
 
-export interface IUserWithKey extends IUser {
-    key: string;
-}
+const getMessages = (userId: string) => {
+  return api.get(`/chat/${userId}/message`);
+};
 
-export type IGetUsersChatResp = IBaseResponse<{
-    users: IUserWithKey[];
-}>
-
-export const getUsersChat = async () => {
-  const { data } = await api.get("/chat/users", {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  });
-  return data as IGetUsersChatResp;
+const sendMessage = (to: string, message: string) => {
+  return api.post("/chat/message", { to, message });
 };
 
 
+export default {
+  upsertToken,
+  getMatchList,
+  getMessages,
+  sendMessage,
+};

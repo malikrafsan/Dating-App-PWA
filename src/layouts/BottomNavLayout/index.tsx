@@ -26,7 +26,7 @@ const pages = {
   },
   right: {
     icon: BsFillChatDotsFill,
-    url: "/chat",
+    url: "/matchlist",
   }
 };
 
