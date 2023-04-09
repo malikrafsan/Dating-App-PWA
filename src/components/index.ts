@@ -10,6 +10,9 @@ import FullPageLoading from "./FullPageLoading";
 import UseWarning from "./WarningModal";
 import { AnimBox, AnimPath } from "./AnimComponents";
 import { ImageCarousel, PairCard } from "./Pair";
+import ChannelCard from "./Channel/ChannelCard";
+import ChannelProfile from "./Channel/ChannelProfile";
+import HeaderChannel from "./Channel/HeaderChannel";
 import DropdownField from "./Form/DropdownField";
 
 export {
@@ -27,5 +30,8 @@ export {
   AnimPath,
   ImageCarousel,
   PairCard,
+  ChannelCard,
+  ChannelProfile,
+  HeaderChannel,
   DropdownField,
 };

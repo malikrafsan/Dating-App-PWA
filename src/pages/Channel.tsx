@@ -1,152 +1,113 @@
-import React, { useEffect, useState } from "react";
+import { Box, Button, Heading, HStack, useDisclosure, VStack } from "@chakra-ui/react";
+import React, { useState, useEffect } from "react";
+import { ChannelCard, ChannelProfile} from "../components";
 import { BottomNavLayout } from "../layouts";
-import {
-  getUniversity,
-  getUniversities,
-  createUniveristy,
-  updateUniversity,
-  updateUniversityLogo,
-  deleteUniversity,
-  deleteUniversityLogo,
-} from "../api/channel";
-import { UniversityType } from "../types/response";
-import { Button, Divider } from "@chakra-ui/react";
-import {UpdatableImage} from "../components";
+import { University } from "../api";
 
-const Channel = () => {
-  const [universities, setUniversities] = useState<UniversityType[]>([]);
-  const [slug, setSlug] = useState<string>("");
-  const [name, setName] = useState<string>("");
-  const [logo, setLogo] = useState<FormData>();
-  const [logoUrl, setLogoUrl] = useState<string>("");
+type channelItem = {
+  slug: string;
+  name: string;
+  logoFileId: string;
+};
 
-  const onMount = async () => {
-    const {data} = await getUniversities();
-    setUniversities(data.universities);
+const channelList = () => {
+  const [channelList, setChannelList] = useState<channelItem[]>([]);
+  const [selectedChannel, setSelectedChannel] = useState<channelItem>();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isAdd, setIsAdd] = useState(false);
+
+  const handleChannelClick = (item: channelItem) => {
+    setSelectedChannel(item);
+    onOpen();
+  };
+
+  const handleAdd = () => {
+    setIsAdd(true);
+    onOpen();
+  };
+
+  const getUniversities = async () => {        
+    const res = await University.getUniversities();
+    setChannelList(res.data.universities.map((item: any) => item));
   };
 
   useEffect(() => {
-    onMount();
+    getUniversities();
   }, []);
 
-  const handleUpdatePhoto = (val: File | null) => {
-    if (!val) return;
-
-    const formData = new FormData();
-    formData.append("file", val);
-    setLogo(formData);
-  };
-
   return (
-    <BottomNavLayout>
-      <div>
-        <div>
-          <h1>Channel</h1>
-          <div>
-            <label htmlFor="slug">slug: </label>
-            <input type="text" value={slug} onChange={(e) => setSlug(e.target.value)} />
-          </div>
-          <div>
-            <label htmlFor="name">name: </label>
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-          </div>
-          <div>
-            <label htmlFor="logo">logo: </label>
-            <UpdatableImage id="logo" src={`https://drive.google.com/uc?export=view&id=${logoUrl}`} isSquare={true} w="250px" h="250px" handleUpdate={handleUpdatePhoto} />
-          </div>
-        </div>
-        <Divider style={{margin: "10px 0"}} />
-        <div>
-          <h1>get all universities</h1>
-          <ul>
-            {universities.map((university) => (
-              <li key={university.slug}>
-                {university.slug} - {university.name} - {university.logoFileId} - {university.channelId}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <Divider style={{margin: "10px 0"}} />
-        <div>
-          <h1>get university</h1>
+    <BottomNavLayout noLovesIcon>
+      <Box p="4">
+        <HStack justify="space-between" mr="8">
+          <Heading 
+            size="xl" 
+            mb="8" 
+            mt="8" 
+            ml="8"
+            fontWeight="bold">
+                Edit Channel
+          </Heading>
           <Button
-            onClick={async () => {
-              const {data} = await getUniversity(slug);
-              setLogoUrl(data.university.logoFileId);
-              alert(JSON.stringify(data));
+            variant="solidBlue" 
+            mt={4}
+            onClick={handleAdd}
+            boxShadow={
+              "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
+            }
+            _hover={{
+              bg: "blue.300",
             }}
-          >
-                        BTN get university
+            _focus={{
+              bg: "blue.300",
+            }}>
+                +
           </Button>
-        </div>
-        <Divider style={{margin: "10px 0"}} />
-        <div>
-          <h1>Create university</h1>
-          <Button
-            onClick={async () => {
-              const {data} = await createUniveristy(name);
-              alert(JSON.stringify(data));
-            }}
-          >
-                        BTN create university
-          </Button>
-        </div>
-        <Divider style={{margin: "10px 0"}} />
-        <div>
-          <h1>Update university Name</h1>
-          <Button
-            onClick={async () => {
-              const {data} = await updateUniversity(slug, {name});
-              alert(JSON.stringify(data));
-            }}
-          >
-                        BTN update university name
-          </Button>
-        </div>
-        <Divider style={{margin: "10px 0"}} />
-        <div>
-          <h1>Update university Logo</h1>
-          <Button
-            onClick={async () => {
-              if (!logo) {
-                alert("no logo");
-                return;
-              }
-
-              const {data} = await updateUniversityLogo(slug, logo);
-              alert(JSON.stringify(data));
-            }}
-          >
-                        BTN update university logo
-          </Button>
-        </div>
-        <Divider style={{margin: "10px 0"}} />
-        <div>
-          <h1>Delete university</h1>
-          <Button
-            onClick={async () => {
-              const {data} = await deleteUniversity(slug);
-              alert(JSON.stringify(data));
-            }}
-          >
-                        BTN delete university
-          </Button>
-        </div>
-        <Divider style={{margin: "10px 0"}} />
-        <div>
-          <h1>Delete university logo</h1>
-          <Button
-            onClick={async () => {
-              const {data} = await deleteUniversityLogo(slug);
-              alert(JSON.stringify(data));
-            }}
-          >
-                        BTN delete university logo
-          </Button>
-        </div>
-      </div>
+        </HStack>
+        <VStack 
+          align="top" 
+          spacing="0" 
+          borderBottom="2px" 
+          borderColor="gray.300"
+          ml="8"
+          mr="8">
+          {channelList.map((item) => (
+            <ChannelCard
+              key={item.slug}
+              name={item.name}
+              logo={item.logoFileId}
+              onClick={() => handleChannelClick(item)}
+            />
+          ))}
+        </VStack>
+      </Box >
+      {selectedChannel && (
+        <ChannelProfile
+          key={selectedChannel.slug}
+          name={selectedChannel.name}
+          logo={selectedChannel.logoFileId}
+          slug={selectedChannel.slug}
+          isAdd={false}
+          isOpen={isOpen}
+          onClose={onClose}
+          setValue={(val) => selectedChannel.name = val}
+          onChange={getUniversities}
+        />
+      )}
+      {isAdd && (
+        <ChannelProfile
+          name={""}
+          logo={""}
+          slug={""}
+          isAdd={true}
+          isOpen={isOpen}
+          onClose={() => { setIsAdd(false); onClose(); }}
+          setValue={() => (isAdd)}
+          onChange={getUniversities}
+        />
+      )}
+        
     </BottomNavLayout>
   );
 };
 
-export default Channel;
+export default channelList;
