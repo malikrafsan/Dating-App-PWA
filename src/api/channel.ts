@@ -11,7 +11,7 @@ const getUniversity = async (slug: string) => {
   return data as Response<UniversityData>;
 };
 
-const createUniveristy = async (name: string) => {
+const createUniversity = async (name: string) => {
   const { data } = await api.post("/university", {
     name: name,
   });
@@ -45,10 +45,10 @@ const deleteUniversityLogo = async (slug: string) => {
   return data as Response<UniversityData>;
 };
 
-export {
+export default {
   getUniversity,
   getUniversities,
-  createUniveristy,
+  createUniversity,
   updateUniversity,
   updateUniversityLogo,
   deleteUniversity,
