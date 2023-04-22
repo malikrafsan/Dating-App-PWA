@@ -139,7 +139,7 @@ const Profile = () => {
       editValues.dateOfBirth,
       undefined,
       undefined,
-      editValues.sex as "MALE" | "FEMALE",
+      editValues.sex.value,
       editValues.tags
     )
       .then((_) => {
