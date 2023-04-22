@@ -83,7 +83,9 @@ const PairCard = (props: PairCardProps & PropsOf<typeof AnimBox>) => {
   return (
     <AnimBox
       drag="x"
-      style={{ x: cardX, y: cardY, rotate: cardRot, opacity: cardOpacity }}
+      style={{ 
+        x: cardX, y: cardY, rotate: cardRot, opacity: cardOpacity, touchAction: "none"
+      }}
       variants={{
         swipeRight: {
           x: 500,
@@ -137,6 +139,7 @@ const PairCard = (props: PairCardProps & PropsOf<typeof AnimBox>) => {
         style={{
           opacity: statOpacity,
           backgroundColor: statColor,
+          touchAction: "none",
         }}
       >
         <svg

@@ -1,5 +1,6 @@
 import { Text, Box, Slide, Button, Image, Avatar } from "@chakra-ui/react";
 import React, {useCallback} from "react";
+import { useNavigate } from "react-router";
 
 export interface MatchData {
   pairedId: number;
@@ -15,6 +16,7 @@ interface MatchProps {
 }
 
 const Match = ({data, setShow, show}: MatchProps) => {
+  const nav = useNavigate();
   const onKeepSwiping = useCallback(() => {
     setShow(false);
   }, [setShow]);
@@ -69,7 +71,9 @@ const Match = ({data, setShow, show}: MatchProps) => {
           padding="0 5em"
           height="24"
         >
-          <Button bgColor="white" color="black" m="2" p="4" boxSizing="content-box">
+          <Button bgColor="white" color="black" m="2" p="4" boxSizing="content-box"
+            onClick={()=>nav(`/chat/${data.pairedId}}`)}
+          >
             <Text fontSize="md">Start Messaging</Text>
           </Button>
           <Button bgColor="rgba(0,0,0,0.23)" m="2" p="4" boxSizing="content-box"
