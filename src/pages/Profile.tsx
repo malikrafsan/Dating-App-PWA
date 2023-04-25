@@ -226,7 +226,7 @@ const Profile = () => {
                 y.o
               </Text>
               <Text color="gray.900">{profileValues.user.sex}</Text>
-              <Text color="gray.900">{profileValues.user.university.name}</Text>
+              <Text color="gray.900">{profileValues.user.university?.name}</Text>
             </VStack>
             <VStack mt={4} w="80%" gap={2} alignItems="flex-start">
               <Text fontSize="xl" fontWeight="bold" color="black">
