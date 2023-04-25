@@ -52,6 +52,8 @@ const Register = () => {
       return;
     }
     if (options && !options?.includes(formValues.university)) {
+      console.log("formValues.university",formValues.university);
+      console.log("options",options);
       setErrorMessage("Please select a valid university");
       return;
     }
@@ -140,11 +142,11 @@ const Register = () => {
             errorMessage={errorMessagePassword}
           />
           <DropdownField
-            value={formValues.university}
+            value={formValues.university.value}
             onChange={(val) => {
               if (!val) handleChange("", "university");
 
-              handleChange(val, "university");
+              handleChange(val.value, "university");
             }}
             onCreateOption={() => {
               window.open(formUrl, "_blank");
