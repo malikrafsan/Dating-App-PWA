@@ -50,22 +50,32 @@ const ChatDetail = () => {
     onMount();
   }, []);
 
-  onMessageListener().then((msg) => {
-    const msgId = msg.data.messageId;
-    const timestamp = msg.data.timestamp;
-    // const toId = msg.data.toId;
-    const fromId = msg.data.fromId;
-    const content = msg.data.text;
-    const newChatList = [
-      ...chatList,
-      {
-        key: msgId,
-        user: fromId === id ? 2 : 1, // lawan
-        msg: content,
-        timestamp: timestamp,
-      },
-    ];
-    setChatList(newChatList);
+  onMessageListener().then(async (_) => {
+    const result = await getMessages(id);
+    const chatList = result.data.data.messages.messages.map((chat) => {
+      return {
+        key: chat.id,
+        user: chat.senderId === parseInt(id) ? 2 : 1,
+        msg: chat.content,
+        timestamp: chat.timestamp,
+      };
+    });
+    setChatList(chatList);
+  //   const msgId = msg.data.messageId;
+  //   const timestamp = msg.data.timestamp;
+  //   // const toId = msg.data.toId;
+  //   const fromId = msg.data.fromId;
+  //   const content = msg.data.text;
+  //   const newChatList = [
+  //     ...chatList,
+  //     {
+  //       key: msgId,
+  //       user: fromId === id ? 2 : 1, // lawan
+  //       msg: content,
+  //       timestamp: timestamp,
+  //     },
+  //   ];
+  //   setChatList(newChatList);
   });
 
   const [newMsg, setNewMsg] = useState("");
