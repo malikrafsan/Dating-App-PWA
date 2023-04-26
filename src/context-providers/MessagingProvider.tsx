@@ -44,6 +44,12 @@ export const MessagingProvider = ({ children }: IMessagingProviderProps) => {
   useEffect(() => {
     if (accountToken) {
       navigator.serviceWorker.ready.then((registration) => {
+        // Add event listener for "message"
+        navigator.serviceWorker.addEventListener("message", (event) => {
+          if (event.data.id === "refresh") {
+            window.location.reload();
+          }
+        });
         // Get current FCM token
         getToken(messaging, { vapidKey: import.meta.env.VITE_PUBLIC_FIREBASE_VAPID_KEY,
           serviceWorkerRegistration: registration })

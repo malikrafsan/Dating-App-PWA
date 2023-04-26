@@ -32,15 +32,14 @@ const firebaseConfig = { "apiKey": "AIzaSyBUUot8I-jJyIF1L8mV3N6_mSQfMCdWQLY", "a
 initializeApp(firebaseConfig);
 const messaging = getMessaging();
 
-onBackgroundMessage (messaging, (payload) => {
+onBackgroundMessage(messaging, (payload) => {
   console.log("[firebase-messaging-sw.js] Received background message ", payload);
-  // Customize notification here
-  const notificationTitle = "Background Message Title";
-  const notificationOptions = {
-    body: "Background Message body.",
-    icon: "/firebase-logo.png"
-  };
 
-  self.registration.showNotification(notificationTitle,
-    notificationOptions);
+  // Send message to page to update UI
+  self.clients.matchAll().then((clients) => {
+    clients.forEach((client) => {
+      client.postMessage({ id: "refresh" });
+    });
+  });
+
 });
