@@ -42,7 +42,8 @@
     "run-build-sw-reloadsw-claims-destroy": "cross-env DEBUG=vite-plugin-pwa:* BASE_URL=/ SOURCE_MAP=true SW_DESTROY=true CLAIMS=true RELOAD_SW=true SW=true vite build",
     "serve": "serve dist",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx,.vue src",
-    "lint:fix": "eslint --ext .js,.jsx,.ts,.tsx,.vue src --fix"
+    "lint:fix": "eslint --ext .js,.jsx,.ts,.tsx,.vue src --fix",
+    "test:e2e": "npx playwright test --project=chromium --headed"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.17",
@@ -64,6 +65,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.32.3",
     "@rollup/plugin-replace": "^5.0.1",
     "@types/node": "^18.14.0",
     "@types/react": "^18.0.26",

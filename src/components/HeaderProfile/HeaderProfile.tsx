@@ -52,7 +52,7 @@ const HeaderProfile: FC<HeaderProfileProps> = ({
       </Text>
       <Box w="72px" h="40px">
         {state === "VIEW" ? (
-          <Button bg="transparent" onClick={() => setState("EDIT")}>
+          <Button id="btn-edit-profile" bg="transparent" onClick={() => setState("EDIT")}>
             <Icon as={Edit} w={6} h={6} />
           </Button>
         ) : (

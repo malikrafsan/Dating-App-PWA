@@ -10,16 +10,20 @@ import {
 } from "@chakra-ui/react";
 
 interface IDropdownFieldProps {
-    options: string[];
+  options: string[];
+  value: string;
+  onChange: (props: {
     value: string;
-    onChange: (value: string) => void;
-    onCreateOption?: (value: string) => void;
     label: string;
-    errorMessage?: string;
+  } | null) => void;
+  onCreateOption?: (value: string) => void;
+  label: string;
+  errorMessage?: string;
+  id?: string;
 }
 
 const DropdownField = (props: IDropdownFieldProps) => {
-  const { options, value, onChange, onCreateOption, label, errorMessage } = props;
+  const { options, value, onChange, onCreateOption, label, errorMessage, id } = props;
   const [isActive, setIsActive] = useState(false);
   const [searchValue, setSearchValue] = useState(value);
 
@@ -53,13 +57,18 @@ const DropdownField = (props: IDropdownFieldProps) => {
         </Text>
 
         {
-          onCreateOption ? (                
+          onCreateOption ? (
             <CreatableSelect
               isClearable
               isSearchable
-              value={value}
+              id={id}
+              value={{
+                value: value,
+                label: value,
+              }}
               onChange={(val) => {
-                onChange(val ? val : "");
+                console.log("val inside", val);
+                onChange(val ? val : null);
               }}
               onInputChange={(val) => {
                 setSearchValue(val);
@@ -89,14 +98,18 @@ const DropdownField = (props: IDropdownFieldProps) => {
               }}
               placeholder=""
             />) : (
-            <Select 
+            <Select
               isClearable
               isSearchable
-              value={value}
+              id={id}
+              value={{
+                value: value,
+                label: value,
+              }}
               defaultInputValue={value}
               // inputValue={value}
               onChange={(val) => {
-                onChange(val ? val : "");
+                onChange(val ? val : null);
               }}
               onInputChange={(val) => {
                 setSearchValue(val);

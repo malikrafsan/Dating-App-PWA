@@ -14,6 +14,7 @@ interface InputFieldProps {
   value: string;
   setValue: (value: string) => void;
   errorMessage?: string;
+  id?: string;
 }
 
 const InputField: FC<InputFieldProps> = ({
@@ -22,6 +23,7 @@ const InputField: FC<InputFieldProps> = ({
   value,
   setValue,
   errorMessage,
+  id,
 }) => {
   const [isActive, setIsActive] = useState(value !== "");
 
@@ -64,6 +66,7 @@ const InputField: FC<InputFieldProps> = ({
           border="1px solid"
           borderColor="blue.secondary"
           backgroundColor="white"
+          id={id}
         />
       </Box>
       {errorMessage ? (

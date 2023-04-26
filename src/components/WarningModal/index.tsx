@@ -15,18 +15,20 @@ import React, { useState } from "react";
     title: string;
     description: string;
     cb: () => void;
+    id?: string;
   }
   
   interface WarningArgs {
     title: string;
     description: string;
     onConfirm: () => void;
+    id?: string;
   }
   
 // Modal with yes and no button
-const Component = ({ isOpen, title, description, setIsOpen, cb }: ComponentProps) => {
+const Component = ({ isOpen, title, description, setIsOpen, cb, id }: ComponentProps) => {
   return (
-    <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+    <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} id={id}>
       <ModalOverlay />
       <ModalContent top="30%">
         <ModalHeader>{title}</ModalHeader>
@@ -49,17 +51,20 @@ const UseWarning = () => {
   const [description, setDescription] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [cb, setCb] = useState(() => () => {});
+  const [id, setId] = useState("");
   // call this function to open modal
-  const warning = ({ title, description, onConfirm }: WarningArgs) => {
+  const warning = ({ title, description, onConfirm, id }: WarningArgs) => {
     setTitle(title);
     setDescription(description);
     setIsOpen(true);
     setCb(() => onConfirm);
+    setId(id || "");
   };
     // render this component on page
   const WarningModal = () => {
     return (
       <Component
+        id={id}
         isOpen={isOpen}
         title={title}
         description={description}

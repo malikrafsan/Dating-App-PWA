@@ -11,6 +11,7 @@ interface TextAreaFieldProps {
   setValue: (value: string) => void;
   placeholder?: string;
   minH?: string;
+  id?: string;
 }
 
 const TextAreaField: FC<TextAreaFieldProps> = ({
@@ -19,6 +20,7 @@ const TextAreaField: FC<TextAreaFieldProps> = ({
   setValue,
   placeholder,
   minH,
+  id,
 }) => {
   const [isActive, setIsActive] = useState(value !== "");
 
@@ -71,6 +73,7 @@ const TextAreaField: FC<TextAreaFieldProps> = ({
           overflow="hidden"
           minH={minH || "100px"}
           placeholder={placeholder}
+          id={id}
         />
       </Box>
     </Box>

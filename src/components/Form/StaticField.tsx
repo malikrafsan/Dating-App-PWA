@@ -7,11 +7,13 @@ import {
 interface StaticFieldProps {
   label: string;
   value: string;
+  id?: string;
 }
 
 const StaticField: FC<StaticFieldProps> = ({
   label,
   value,
+  id,
 }) => {
 
   return (
@@ -44,6 +46,7 @@ const StaticField: FC<StaticFieldProps> = ({
       <Text
         fontSize="md"
         color="black"
+        id={id}
       >
         {value}
       </Text>

@@ -138,33 +138,41 @@ const Register = () => {
             value={formValues.email}
             setValue={(val) => handleChange(val, "email")}
             errorMessage={errorMessageEmail}
+            id="email-input"
           />
           <InputField
             type="text"
             label="Username"
             value={formValues.username}
+            id="username-input"
             setValue={(val) => handleChange(val, "username")}
           />
           <InputField
             type="password"
             label="Password"
+            id="password-input"
             value={formValues.password}
             setValue={(val) => handleChange(val, "password")}
           />
           <InputField
             type="password"
             label="Confirm Password"
+            id="confirm-password-input"
             value={formValues.confirmPassword}
             setValue={(val) => handleChange(val, "confirmPassword")}
             errorMessage={errorMessagePassword}
           />
           <DropdownField
-            value={formValues.university.value}
+            value={formValues.university}
             onChange={(val) => {
-              if (!val) handleChange("", "university");
+              if (!val) {
+                handleChange("", "university");
+                return;
+              }
 
               handleChange(val.value, "university");
             }}
+            id="university-input"
             onCreateOption={() => {
               window.open(formUrl, "_blank");
             }}
