@@ -1,8 +1,10 @@
-import { Box, Button, Heading, HStack, useDisclosure, VStack } from "@chakra-ui/react";
+import { Box, Button, Heading, HStack, useDisclosure, VStack, Icon } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
-import { ChannelCard, ChannelProfile} from "../components";
+import { ChannelCard, ChannelProfile, UseWarning} from "../components";
 import { BottomNavLayout } from "../layouts";
 import { University } from "../api";
+import { useAuth } from "../context-providers/AuthProvider";
+import { MdLogout } from "react-icons/md";
 
 type channelItem = {
   slug: string;
@@ -35,9 +37,22 @@ const channelList = () => {
     getUniversities();
   }, []);
 
+
+
+  const { logout } = useAuth();
+  const { WarningModal, warning } = UseWarning();
+
   return (
-    <BottomNavLayout noLovesIcon>
-      <Box p="4">
+    <BottomNavLayout noLovesIcon isAdmin>
+      <WarningModal />
+      <Box p="4" h="90%"
+        overflow="scroll"
+        css={{
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
+        }}
+      >
         <HStack justify="space-between" mr="8">
           <Heading 
             size="xl" 
@@ -80,6 +95,26 @@ const channelList = () => {
           ))}
         </VStack>
       </Box >
+      <Box py="4" px="8" display="flex" justifyContent="center" alignItems="center">
+        <Button
+          mt={4}
+          colorScheme="blue"
+          rounded="full"
+          boxShadow="md"
+          p={4}
+          cursor="pointer"
+          onClick={() =>
+            warning({
+              title: "Are you sure?",
+              description: "You will be logged out.",
+              onConfirm: () => logout(),
+            })
+          }
+        >
+          Logout&nbsp;
+          <Icon as={MdLogout} boxSize={6} />
+        </Button>
+      </Box>
       {selectedChannel && (
         <ChannelProfile
           key={selectedChannel.slug}

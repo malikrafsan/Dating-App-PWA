@@ -171,7 +171,7 @@ export default function ChannelProfile(
       <VStack spacing="6"  width={"80%"} pb="6">
         <UpdatableImage 
           id="logo" 
-          src={`https://drive.google.com/uc?export=view&id=${logoUrl}`} 
+          src={logoUrl ? `https://drive.google.com/uc?export=view&id=${logoUrl}`: ""} 
           isSquare={false} 
           w="200px" 
           h="200px" 

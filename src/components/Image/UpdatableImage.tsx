@@ -84,11 +84,11 @@ const UpdatableImage: FC<UpdatableImageProps> = ({
         )}
         <Box w="100%" h="100%" cursor="pointer" position="absolute" top="0" left="0" bg="rgba(200,200,200,0.4)">
           { !isRemoved ? (
-            <Icon as={Edit} w={16} h={16} color="gray.900" position="absolute" top="50%" left="50%" transform="translate(-50%, -50%)"
+            <Icon as={Edit} w="100%" h="100%" p={8} color="gray.900" position="absolute" top="50%" left="50%" transform="translate(-50%, -50%)"
               onClick={onOpen}
             />
           ) : (
-            <Icon as={Plus} w={16} h={16} color="gray.900" position="absolute" top="50%" left="50%" transform="translate(-50%, -50%)"
+            <Icon as={Plus} w="100%" h="100%" p={8} color="gray.900" position="absolute" top="50%" left="50%" transform="translate(-50%, -50%)"
               onClick={() => {
                 const input = document.getElementById(`input-${id}`);
                 if(input) input.click();
@@ -101,9 +101,9 @@ const UpdatableImage: FC<UpdatableImageProps> = ({
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent top="40%" margin="0" height="20vh">
           <ModalCloseButton />
-          <ModalBody>
+          <ModalBody display="flex" justifyContent="center" alignItems="center">
             <VStack spacing={4}>
               <Button onClick={() => {
                 const input = document.getElementById(`input-${id}`);

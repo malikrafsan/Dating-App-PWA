@@ -28,7 +28,7 @@ const Component = ({ isOpen, title, description, setIsOpen, cb }: ComponentProps
   return (
     <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent top="30%">
         <ModalHeader>{title}</ModalHeader>
         <ModalBody>{description}</ModalBody>
         <ModalFooter gap={4}>

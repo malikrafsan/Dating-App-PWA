@@ -1,4 +1,4 @@
-import{ Box, Flex, Text, Image } from "@chakra-ui/react";
+import{ Box, Flex, Text, Avatar } from "@chakra-ui/react";
 import React from "react";
 
 type ChannelCardProps = {
@@ -14,15 +14,12 @@ const ChannelCard = ({ name, logo, onClick }: ChannelCardProps) => {
       pt="4" 
       pb="4" 
       borderColor="gray.300"
+      _hover={{
+        cursor: "pointer",
+      }}
       onClick={onClick}>
       <Flex justifyContent="left" alignItems="center">
-        <Image 
-          src={`https://drive.google.com/uc?export=view&id=${logo}`}  
-          alt={name} 
-          boxSize="50px" 
-          mr="4" 
-          rounded="full" 
-          ml="4"/>
+        <Avatar size='md' mx="4" name={name} src={logo ? `https://drive.google.com/uc?export=view&id=${logo}` : ""} />
         <Text fontSize="lg">{name}</Text>
       </Flex>
     </Box>
