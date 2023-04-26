@@ -44,6 +44,14 @@ const updateProfilePhoto = async (photos: (File | null | undefined)[]) => {
   return newData;
 };
 
+const updateLocation = async (latitude: number, longitude: number) => {
+  const { data } = await api.put("/user/location", {
+    latitude,
+    longitude
+  });
+  return data;
+};
+
 const deleteProfilePhoto = async (index: number[]) => {
   const { data } = await api.delete("/user/profile/photo", {
     data: {
@@ -67,4 +75,5 @@ export default {
   updateProfilePhoto,
   deleteProfilePhoto,
   getTags,
+  updateLocation,
 };
