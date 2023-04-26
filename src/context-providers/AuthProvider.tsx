@@ -92,7 +92,9 @@ const AuthGuard = ({ children } : IAuthGuardProps) => {
       }
     } catch (err) {
       setIsLoading(false); 
-      console.log(err);
+      console.log("err",err);
+      localStorage.removeItem("token");
+      window.location.reload();
     }
   };
 
