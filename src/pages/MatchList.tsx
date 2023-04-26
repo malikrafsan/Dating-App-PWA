@@ -32,7 +32,7 @@ const MatchList = () => {
         userName: chat.user2.name,
         lastMsg: chat.messages[0]?.content || "",
         unreadCount: chat.unreadCount,
-        photo: chat.user2.profileUrl,
+        photo: chat.user2.userPhoto.find((p: any) => p.index === 0).fileId,
         timestamp: chat.timestamp,
       };
     });
@@ -137,7 +137,7 @@ const MatchList = () => {
                         h="75px"
                       >
                         <Image
-                          src={match.photo}
+                          src={`https://drive.google.com/uc?export=view&id=${match.photo}`}
                           rounded="full"
                           boxSize="75px"
                           objectFit="cover"

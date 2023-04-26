@@ -7,6 +7,7 @@ import StaticField from "./Form/StaticField";
 import HeaderProfile from "./HeaderProfile/HeaderProfile";
 import UpdatableImage from "./Image/UpdatableImage";
 import FullPageLoading from "./FullPageLoading";
+import FullPageError from "./FullPageError";
 import UseWarning from "./WarningModal";
 import { AnimBox, AnimPath } from "./AnimComponents";
 import { ImageCarousel, PairCard } from "./Pair";
@@ -25,6 +26,7 @@ export {
   HeaderProfile,
   UpdatableImage,
   FullPageLoading,
+  FullPageError,
   UseWarning,
   AnimBox,
   AnimPath,

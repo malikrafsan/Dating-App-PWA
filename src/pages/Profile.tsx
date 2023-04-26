@@ -1,6 +1,6 @@
 import React, { useEffect, useState, MouseEventHandler } from "react";
 
-import { HeaderProfile, StaticField, InputField, DropdownField, TextAreaField, UpdatableImage, UseWarning, FullPageLoading } from "../components/";
+import { HeaderProfile, StaticField, InputField, DropdownField, TextAreaField, UpdatableImage, UseWarning, FullPageLoading, FullPageError } from "../components/";
 import { BottomNavLayout } from "../layouts";
 import { User } from "../api";
 import {
@@ -37,7 +37,7 @@ const PhotoProfile = ({ setState, mainPhoto }: PhotoProfileProps) => {
         src={
           mainPhoto
             ? `https://drive.google.com/uc?export=view&id=${mainPhoto}`
-            : "/images/blank-profile.png"
+            : "/images/blank_profile.png"
         }
         alt="profile"
         rounded="full"
@@ -70,6 +70,8 @@ const PhotoProfile = ({ setState, mainPhoto }: PhotoProfileProps) => {
 };
 
 const Profile = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   const { getSelfProfile, updateProfile, updateProfilePhoto, deleteProfilePhoto, getTags } = User;
   const [state, setState] = useState("VIEW"); // VIEW, EDIT, EDITPHOTO
   const [tagValues, setTagValues] = useState([""]);
@@ -96,27 +98,38 @@ const Profile = () => {
   const [editPhotoValues, setEditPhotoValues] = useState<
     [File | null | undefined, File | null | undefined, File | null | undefined, File | null | undefined]
   >([undefined, undefined, undefined, undefined]);
+  const [isUploading, setIsUploading] = useState(false);
 
   const { logout } = useAuth();
   const { WarningModal, warning } = UseWarning();
 
   const sexValues = ["MALE", "FEMALE"];
 
-  useEffect(() => {
-    getTags().then((res) => {
-      setTagValues(res.data.tags.map((tag: { tag: string }) => tag.tag));
-    });
-    getSelfProfile().then((res) => {
+  const getInitValues = async () => {
+    setIsLoading(true);
+    try {
+      const tagRes = await getTags();
+      setTagValues(tagRes.data.tags.map((tag: { tag: string }) => tag.tag));
+
+      const profileRes = await getSelfProfile();
       setEditValues({
-        username: res.data.user.account.username,
-        name: res.data.user.name,
-        description: res.data.user.description,
-        sex: res.data.user.sex,
-        dateOfBirth: new Date(res.data.user.dateOfBirth),
-        tags: res.data.user.userTag.map((tagData) => tagData.tag.tag),
+        username: profileRes.data.user.account.username,
+        name: profileRes.data.user.name,
+        description: profileRes.data.user.description,
+        sex: profileRes.data.user.sex,
+        dateOfBirth: new Date(profileRes.data.user.dateOfBirth),
+        tags: profileRes.data.user.userTag.map((tagData) => tagData.tag.tag),
       });
-      setProfileValues(res.data);
-    });
+      setProfileValues(profileRes.data);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => { 
+    getInitValues();
   }, []);
 
   const handleChangeEdit = (val: string, key: string) => {
@@ -156,6 +169,7 @@ const Profile = () => {
   };
 
   const handleEditPhoto: MouseEventHandler<HTMLButtonElement> = (e) => {
+    setIsUploading(true);
     e.preventDefault();
     const deletedPhotos = editPhotoValues.map((photo, index) => {
       return profileValues?.user.userPhoto.map((photo) => photo.index).includes(index) && photo === null;
@@ -174,16 +188,18 @@ const Profile = () => {
           setProfileValues(res.data);
           setEditPhotoValues([undefined, undefined, undefined, undefined]);
           setState("VIEW");
+          setIsUploading(false);
         });
       })
       .catch((err) => {
         if (err.response?.data?.message) {
           alert(err.response.data.message); // FIXME: Change this to "Something went wrong"
         }
+        setIsUploading(false);
       });
   };
 
-
+  
   const dateFormatString = (date: string) => {
     return new Date(date).toLocaleDateString("en-GB", {
       day: "numeric",
@@ -204,13 +220,32 @@ const Profile = () => {
       .join("-");
   };
 
-  if (!profileValues || !photoValues) return <FullPageLoading />;
-
+  if (isLoading) {
+    console.log("loading");
+    return <FullPageLoading />;
+  } else if (!isLoading && !profileValues)  {
+    console.log("error");
+    return <FullPageError message="Something went wrong. Please try again later." />;
+  }
+  
   return (
     <BottomNavLayout noLovesIcon>
       <WarningModal />
       <Center h="100%" py={20} flexDir="column" justifyContent="flex-start">
         <HeaderProfile state={state} setState={setState} />
+        {isUploading && (
+          <Box
+            w="100%"
+            h="auto"
+            position= "absolute"
+            zIndex= "100"
+            background= "rgba(255, 255, 255, 0.5)"
+            left= "0"
+            top= "0"
+          >
+            <FullPageLoading />
+          </Box>
+        )}
         {state === "VIEW" && (
           <>
             <PhotoProfile setState={setState} mainPhoto={photoValues[0]} />

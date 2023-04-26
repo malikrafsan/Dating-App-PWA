@@ -9,9 +9,9 @@ interface IBtnNav {
 }
 
 export interface IBottomNavProps {
-  left: IBtnNav;
+  left?: IBtnNav;
   middle: IBtnNav;
-  right: IBtnNav;
+  right?: IBtnNav;
   noLovesIcon?: boolean;
 }
 
@@ -19,8 +19,12 @@ const lovesUrl = "/images/loves.png";
 
 const BottomNav = (props: IBottomNavProps) => {
   const { left, middle, right, noLovesIcon } = props;
+  
+  const elmts = [];
+  if (left) elmts.push({ ...left, key: "left" });
+  elmts.push({ ...middle, key: "middle" });
+  if (right) elmts.push({ ...right, key: "rigth" });
 
-  const elmts = [{ ...left, key: "left" }, { ...middle, key: "middle" }, { ...right, key: "rigth" }];
 
   return (
     <>

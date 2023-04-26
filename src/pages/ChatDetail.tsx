@@ -28,7 +28,7 @@ const ChatDetail = () => {
     const user = result.data.data.messages.match.user2;
     const otherUser = {
       name: user.name,
-      photo: user.profileUrl,
+      photo: user.userPhoto.find((p: any) => p.index === 0).fileId,
       university: user.universitySlug
     };
     setOtherUser(otherUser);
@@ -140,7 +140,7 @@ const ChatDetail = () => {
               w="20%"
             >
               <Image
-                src={otherUser.photo}
+                src={`https://drive.google.com/uc?export=view&id=${otherUser.photo}`}
                 rounded="full"
                 boxSize="64px"
                 objectFit="cover"

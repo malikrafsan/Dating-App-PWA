@@ -1,6 +1,6 @@
 import React, { useState, useEffect, MouseEventHandler } from "react";
 import { BaseLayout } from "../layouts";
-import { FullPageLoading, InputField, DropdownField } from "../components/";
+import { FullPageError, FullPageLoading, InputField, DropdownField } from "../components/";
 import { useAuth } from "../context-providers/AuthProvider";
 
 import {
@@ -19,6 +19,8 @@ import university from "../api/university";
 const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSc2FzEBFwfUOsfzLrO677LBvitz1UBOOmQmQH4khSJQTBCjng/viewform";
 
 const Register = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   const [formValues, setFormValues] = useState({
     email: "",
     username: "",
@@ -97,14 +99,29 @@ const Register = () => {
     }
   }, [formValues.password, formValues.confirmPassword]);
 
-  useEffect(() => {
-    university.getUniversities().then((res) => {
+  const getUniversityData = async () => {
+    setIsLoading(true);
+    try {
+      const res = await university.getUniversities();
+      setUniversityData(res.data.universities);
       setUniversityData(res.data.universities);
       setOptions(res.data.universities.map((item: any) => item.name));
-    });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getUniversityData();
   }, []);
 
-  if (!options) return <FullPageLoading/>;
+  if (isLoading) {
+    return <FullPageLoading />;
+  } else if (!isLoading && !options) {
+    return <FullPageError message="Something went wrong. Please try again later." />;
+  }
 
   return (
     <BaseLayout>
@@ -168,6 +185,7 @@ const Register = () => {
         </Text>
       </Center>
     </BaseLayout>
+    
   );
 };
 

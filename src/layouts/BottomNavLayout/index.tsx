@@ -6,10 +6,13 @@ import { BottomNav } from "../../components";
 import styles from "./index.module.css";
 import { Box } from "@chakra-ui/react";
 import { GiLovers } from "react-icons/gi";
-import {CgProfile} from "react-icons/cg";
-import {BsFillChatDotsFill} from "react-icons/bs";
+import { CgProfile } from "react-icons/cg";
+import { BsFillChatDotsFill } from "react-icons/bs";
+import { HiUserGroup } from "react-icons/hi";
+
 
 interface IBottomNavLayoutProps {
+  isAdmin?: boolean;
   children: React.ReactNode;
   noNav?: boolean;
   noLovesIcon?: boolean;
@@ -30,8 +33,15 @@ const pages = {
   }
 };
 
+const pagesAdmin = {
+  middle: {
+    icon: HiUserGroup,
+    url: "/channel",
+  },
+};
+
 const BottomNavLayout = (props: IBottomNavLayoutProps) => {
-  const { children, noNav, noLovesIcon } = props;
+  const { isAdmin, children, noNav, noLovesIcon } = props;
 
   const router = useNavigate();
 
@@ -47,21 +57,31 @@ const BottomNavLayout = (props: IBottomNavLayoutProps) => {
     <BaseLayout>
       <Box className={styles.container}>
         <Box className={styles.childrenContainer}>{children}</Box>
-        <BottomNav
-          left={{
-            icon: pages.left.icon,
-            onClick: () => router(pages.left.url),
-          }}
-          middle={{
-            icon: pages.middle.icon,
-            onClick: () => router(pages.middle.url),
-          }}
-          right={{
-            icon: pages.right.icon,
-            onClick: () => router(pages.right.url),
-          }}
-          noLovesIcon={noLovesIcon}
-        />
+        {isAdmin ? (
+          <BottomNav
+            middle={{
+              icon: pagesAdmin.middle.icon,
+              onClick: () => router(pagesAdmin.middle.url),
+            }}
+            noLovesIcon={noLovesIcon}
+          />
+        ):(
+          <BottomNav
+            left={{
+              icon: pages.left.icon,
+              onClick: () => router(pages.left.url),
+            }}
+            middle={{
+              icon: pages.middle.icon,
+              onClick: () => router(pages.middle.url),
+            }}
+            right={{
+              icon: pages.right.icon,
+              onClick: () => router(pages.right.url),
+            }}
+            noLovesIcon={noLovesIcon}
+          />
+        )}
       </Box>
     </BaseLayout>
   );

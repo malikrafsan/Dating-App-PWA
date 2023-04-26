@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect, useCallback, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Auth } from "../api";
-import {FullPageLoading} from "../components";
+import {FullPageLoading, FullPageError} from "../components";
 import {ROLE, Permission, PermissionData} from "../types/struct";
 
 interface IAuthProviderProps {
@@ -48,19 +48,19 @@ const UserTypes = [
   {
     name: "Admin",
     role: ROLE.ADMIN,
-    redirect: "/admin",
+    redirect: "/channel",
     rank: 2,
   }
 ] as const;
 
 const PERMISSIONS: PermissionData  = {
-  "/profile": [ROLE.USER, ROLE.ADMIN],
+  "/profile": [ROLE.USER],
   "/login": [ROLE.UNAUTHORIZED],
   "/register": [ROLE.UNAUTHORIZED],
   "/channel": [ROLE.ADMIN],
-  "/chat": [ROLE.USER, ROLE.ADMIN],
-  "/pair": [ROLE.USER, ROLE.ADMIN],
-  "/matchlist": [ROLE.USER, ROLE.ADMIN],
+  "/chat": [ROLE.USER],
+  "/pair": [ROLE.USER],
+  "/matchlist": [ROLE.USER],
 };
 
 interface IAuthGuardProps {
@@ -72,6 +72,7 @@ const AuthGuard = ({ children } : IAuthGuardProps) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const getKeyPermission = (path: string) => {
     return Object.keys(PERMISSIONS).find((key) => path.includes(key)); // change to regex later
@@ -82,11 +83,17 @@ const AuthGuard = ({ children } : IAuthGuardProps) => {
       return ROLE.UNAUTHORIZED;
     }
 
-    const res = await Auth.self();
-    if (res && res.data) {
-      return res.data.account.role;
+    setIsLoading(true);
+    try {
+      const res = await Auth.self();
+      if (res && res.data) {
+        setIsLoading(false); 
+        return res.data.account.role;
+      }
+    } catch (err) {
+      setIsLoading(false); 
+      console.log(err);
     }
-    return ROLE.UNAUTHORIZED;
   };
 
   const onMount = async (pathname: string, token: string | undefined) => {
@@ -95,22 +102,29 @@ const AuthGuard = ({ children } : IAuthGuardProps) => {
     const keyPermission = getKeyPermission(pathname);
     const permissions = keyPermission ? PERMISSIONS[keyPermission] : null;
     
-    const userRole = await getUserRole(token);
-    const userType = UserTypes.find((type) => type.role === userRole);
-    const cleanType = userType ? userType : UserTypes[0]; // UNAUTHORIZED
+    try {
+      const userRole = await getUserRole(token);
+      const userType = UserTypes.find((type) => type.role === userRole);
+      const cleanType = userType ? userType : UserTypes[0]; // UNAUTHORIZED
 
-    if (!permissions) {
-      // alert("No permissions for this page");
-      navigate(cleanType.redirect);
-      return;
-    }
+      if (!permissions) {
+        // alert("No permissions for this page");
+        navigate(cleanType.redirect);
+        return;
+      }
 
-    if (!permissions.includes(userRole)) {
-      // alert("You don't have permission to access this page" + "\nPermission: " + JSON.stringify(permissions) + "\nUserRole: " + userRole + "\nUserType: " + cleanType.name + "\nRedirecting to: " + cleanType.redirect);
-      navigate(cleanType.redirect);
-      return;
-    }
-    setIsLoading(false);    
+      if (!permissions.includes(userRole)) {
+        // alert("You don't have permission to access this page" + "\nPermission: " + JSON.stringify(permissions) + "\nUserRole: " + userRole + "\nUserType: " + cleanType.name + "\nRedirecting to: " + cleanType.redirect);
+        navigate(cleanType.redirect);
+        return;
+      }
+      setIsSuccess(true);
+      setIsLoading(false);  
+    } catch (err) {
+      setIsSuccess(false);
+      setIsLoading(false); 
+      console.log(err);
+    } 
   };
 
   useEffect(() => {
@@ -129,6 +143,8 @@ const AuthGuard = ({ children } : IAuthGuardProps) => {
 
   if (isLoading)
     return <FullPageLoading />;
+  else if (!isLoading && !isSuccess)
+    return <FullPageError message="Something went wrong. Please try again later." />;
 
   return <>{children}</>;
 };
