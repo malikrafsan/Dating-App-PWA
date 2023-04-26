@@ -50,12 +50,14 @@ const Login = () => {
           <InputField
             type="text"
             label="Username"
+            id="username-input"
             value={formValues.username}
             setValue={(val) => handleChange(val, "username")}
           />
           <InputField
             type="password"
             label="Password"
+            id="password-input"
             value={formValues.password}
             setValue={(val) => handleChange(val, "password")}
             errorMessage={errorMessage}

@@ -152,7 +152,7 @@ const Profile = () => {
       editValues.dateOfBirth,
       undefined,
       undefined,
-      editValues.sex.value,
+      editValues.sex as "MALE" | "FEMALE",
       editValues.tags
     )
       .then((_) => {
@@ -260,20 +260,22 @@ const Profile = () => {
                   new Date(profileValues.user.dateOfBirth).getFullYear()}{" "}
                 y.o
               </Text>
-              <Text color="gray.900">{profileValues.user.sex}</Text>
-              <Text color="gray.900">{profileValues.user.university?.name}</Text>
+              <Text id="profile-sex" color="gray.900">{profileValues.user.sex}</Text>
+              <Text id="profile-univ" color="gray.900">{profileValues.user.university?.name}</Text>
             </VStack>
             <VStack mt={4} w="80%" gap={2} alignItems="flex-start">
               <Text fontSize="xl" fontWeight="bold" color="black">
                 About
               </Text>
-              <StaticField label="Name" value={profileValues.user.name || ""} />
+              <StaticField id="profile-name" label="Name" value={profileValues.user.name || ""} />
               <StaticField
                 label="Birthday"
+                id="profile-birthday"
                 value={dateFormatString(profileValues.user.dateOfBirth) || ""}
               />
               <StaticField
                 label="Description"
+                id="profile-desc"
                 value={profileValues.user.description || ""}
               />
             </VStack>
@@ -314,8 +316,10 @@ const Profile = () => {
                   title: "Are you sure?",
                   description: "You will be logged out.",
                   onConfirm: () => logout(),
+                  id: "profile-warning-modal",
                 })
               }
+              id="profile-logout-btn"
             >
               Logout&nbsp;
               <Icon as={MdLogout} boxSize={6} />
@@ -328,24 +332,35 @@ const Profile = () => {
             <VStack mt={4} w="80%" gap={2} alignItems="flex-start">
               <InputField
                 type="text"
+                id="profile-name-input"
                 label="Name"
                 value={editValues.name}
                 setValue={(val) => handleChangeEdit(val, "name")}
               />
               <DropdownField 
                 label="Gender"
+                id="profile-sex-input"
                 value={editValues.sex}
-                onChange={(val) => handleChangeEdit(val, "sex")}
+                onChange={(val) => {
+                  if (!val) {
+                    handleChangeEdit("MALE", "sex");
+                    return;
+                  }
+
+                  handleChangeEdit(val.value, "sex");
+                }}
                 options={sexValues}
               />
               <InputField
                 type="date"
+                id="profile-birthday-input"
                 label="Birthday"
                 value={dateFormatStrip(editValues.dateOfBirth)}
                 setValue={(val) => handleChangeEdit(val, "dateOfBirth")}
               />
               <TextAreaField
                 label="Description"
+                id="profile-desc-input"
                 value={editValues.description}
                 setValue={(val) => handleChangeEdit(val, "description")}
               />
@@ -367,6 +382,7 @@ const Profile = () => {
                   color="white"
                   rounded="full"
                   p={2}
+                  id={"profile-selected-tag-" + index}
                   fontSize="xs"
                   fontWeight="bold"
                   cursor="pointer"
@@ -401,6 +417,7 @@ const Profile = () => {
                     color="white"
                     rounded="full"
                     p={2}
+                    id={"profile-all-tag-" + index}
                     fontSize="xs"
                     fontWeight="bold"
                     cursor="pointer"
@@ -414,7 +431,7 @@ const Profile = () => {
                   </Tag>
                 ))}
             </HStack>
-            <Button onClick={handleEdit} w="80%" variant="solidBlue" mt={4}>
+            <Button id="profile-save-btn" onClick={handleEdit} w="80%" variant="solidBlue" mt={4}>
               Save
             </Button>
           </>
