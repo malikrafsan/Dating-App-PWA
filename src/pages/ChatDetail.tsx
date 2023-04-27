@@ -150,7 +150,7 @@ const ChatDetail = () => {
               w="20%"
             >
               <Image
-                src={`https://drive.google.com/uc?export=view&id=${otherUser.photo}`}
+                src={otherUser?.photo ? `https://drive.google.com/uc?export=view&id=${otherUser.photo}` : "/images/blank_profile.png"}
                 rounded="full"
                 boxSize="64px"
                 objectFit="cover"
