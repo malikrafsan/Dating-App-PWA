@@ -26,13 +26,14 @@ const MatchList = () => {
   const onMount = async () => {
     const result = await getMatchList();
     const matchList = result.data.data.chats.map((chat: any) => {
+      console.log("chat",chat);
       return {
         key: chat.id,
         userId: chat.user2.id,
         userName: chat.user2.name,
         lastMsg: chat.messages[0]?.content || "",
         unreadCount: chat.unreadCount,
-        photo: chat.user2.userPhoto.find((p: any) => p.index === 0).fileId,
+        photo: chat.user2.userPhoto?.find((p: any) => p.index === 0)?.fileId || "",
         timestamp: chat.timestamp,
       };
     });
@@ -137,7 +138,7 @@ const MatchList = () => {
                         h="75px"
                       >
                         <Image
-                          src={`https://drive.google.com/uc?export=view&id=${match.photo}`}
+                          src={match.photo ? `https://drive.google.com/uc?export=view&id=${match.photo}` : "/images/blank_profile.png"}
                           rounded="full"
                           boxSize="75px"
                           objectFit="cover"
