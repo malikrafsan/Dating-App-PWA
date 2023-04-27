@@ -104,7 +104,6 @@ const Register = () => {
     try {
       const res = await university.getUniversities();
       setUniversityData(res.data.universities);
-      setUniversityData(res.data.universities);
       setOptions(res.data.universities.map((item: any) => item.name));
     } catch (err) {
       console.log(err);

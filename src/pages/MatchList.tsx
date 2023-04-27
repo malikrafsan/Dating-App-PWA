@@ -67,8 +67,8 @@ const MatchList = () => {
 
   const getDisplayedTime = (timestamp: string) => {
     const date = new Date(timestamp);
-    const hour = date.getHours();
-    const minute = date.getMinutes();
+    const hour = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
+    const minute = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
     const month = date.toLocaleString("default", { month: "short" });
     const day = date.getDate();   
         

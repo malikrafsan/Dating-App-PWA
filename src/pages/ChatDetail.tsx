@@ -28,7 +28,7 @@ const ChatDetail = () => {
     const user = result.data.data.messages.match.user2;
     const otherUser = {
       name: user.name,
-      photo: user.userPhoto.find((p: any) => p.index === 0).fileId,
+      photo: user.userPhoto?.find((p: any) => p.index === 0).fileId,
       university: user.universitySlug
     };
     setOtherUser(otherUser);
@@ -105,8 +105,8 @@ const ChatDetail = () => {
 
   const getDisplayedTime = (timestamp: string) => {
     const date = new Date(timestamp);
-    const hour = date.getHours();
-    const minute = date.getMinutes();
+    const hour = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
+    const minute = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
 
     return `${hour}:${minute}`;
 
