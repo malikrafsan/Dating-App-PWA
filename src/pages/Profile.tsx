@@ -350,6 +350,7 @@ const Profile = () => {
                   handleChangeEdit(val.value, "sex");
                 }}
                 options={sexValues}
+                resetOnFocus
               />
               <InputField
                 type="date"

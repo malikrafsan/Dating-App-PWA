@@ -20,10 +20,11 @@ interface IDropdownFieldProps {
   label: string;
   errorMessage?: string;
   id?: string;
+  resetOnFocus?: boolean;
 }
 
 const DropdownField = (props: IDropdownFieldProps) => {
-  const { options, value, onChange, onCreateOption, label, errorMessage, id } = props;
+  const { options, value, onChange, onCreateOption, label, errorMessage, id, resetOnFocus } = props;
   const [isActive, setIsActive] = useState(false);
   const [searchValue, setSearchValue] = useState(value);
 
@@ -107,7 +108,7 @@ const DropdownField = (props: IDropdownFieldProps) => {
                 label: value,
               }}
               defaultInputValue={value}
-              // inputValue={value}
+              inputValue={searchValue}
               onChange={(val) => {
                 onChange(val ? val : null);
               }}
@@ -141,7 +142,11 @@ const DropdownField = (props: IDropdownFieldProps) => {
                 })
               }}
               placeholder=""
-
+              onFocus={() => {
+                if (resetOnFocus) {
+                  setSearchValue("");
+                }
+              }}
             />
           )
         }
