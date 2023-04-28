@@ -17,13 +17,17 @@
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 image: node:lts-alpine
 
-cache:
-  paths:
-    - node_modules/
-    - .yarn
-
-before_script:
-  - yarn install
+.use_yarn:
+  cache:
+    key:
+      files:
+        - yarn.lock
+    paths:
+      - .yarn_cache/
+  before_script:
+    - echo 'yarn-offline-mirror ".yarn-cache/"' >> .yarnrc
+    - echo 'yarn-offline-mirror-pruning true' >> .yarnrc
+    - yarn install --frozen-lockfile --no-progress
 
 stages:          # List of stages for jobs, and their order of execution
   - build
@@ -31,11 +35,13 @@ stages:          # List of stages for jobs, and their order of execution
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
+  extends: .use_yarn
   script:
     - yarn build
 
 lint-test-job:   # This job also runs in the test stage.
   stage: test    # It can run at the same time as unit-test-job (in parallel).
+  extends: .use_yarn
   script:
     - yarn lint
 
