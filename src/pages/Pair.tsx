@@ -53,6 +53,10 @@ const Pair = () => {
         if (pairs.length === 0)
           setIsDone(true);
         setData(res.data.pairs);
+      }).catch((err) => {
+        console.log(err);
+        setIsDone(true);
+        setData([]);
       });
     }
   }, [isDone, data, setData, fetchCount]);
