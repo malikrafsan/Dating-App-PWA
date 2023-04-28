@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('can login as generated user', async ({ page }) => {
+test('can login and logout as generated user', async ({ page }) => {
     const data = {
         username: "user1",
         password: "user1",
@@ -21,6 +21,28 @@ test('can login as generated user', async ({ page }) => {
     await page.waitForURL('http://localhost:9000/login');
     await expect(page).toHaveURL('http://localhost:9000/login');
 });
+
+test('can login and logout as admin', async ({ page }) => {
+    const data = {
+        username: "admin",
+        password: "admin",
+    }
+
+    await page.goto('http://localhost:9000/');
+    await page.goto('http://localhost:9000/login');
+    await page.locator('#username-input').click();
+    await page.locator('#username-input').fill(data.username);
+    await page.locator('#password-input').click();
+    await page.locator('#password-input').fill(data.password);
+    await page.getByRole('button', { name: 'Sign In' }).click();
+    await page.waitForURL('http://localhost:9000/channel');
+    await expect(page).toHaveURL('http://localhost:9000/channel');
+
+    await page.getByRole('button', { name: 'Logout' }).click();
+    await page.getByRole('button', { name: 'Yes' }).click();
+    await page.waitForURL('http://localhost:9000/login');
+    await expect(page).toHaveURL('http://localhost:9000/login');
+})
 
 test('can register and login', async ({ page }) => {
     const data = {

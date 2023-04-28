@@ -43,7 +43,8 @@
     "serve": "serve dist",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx,.vue src",
     "lint:fix": "eslint --ext .js,.jsx,.ts,.tsx,.vue src --fix",
-    "test:e2e": "npx playwright test --project=chromium --headed"
+    "test:e2e": "npx playwright test --project=chromium --headed",
+    "test:codegen": "npx playwright codegen localhost:9000"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.17",

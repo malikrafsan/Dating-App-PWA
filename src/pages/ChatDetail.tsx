@@ -15,12 +15,24 @@ import { Chat } from "../api";
 import { onMessageListener } from "../context-providers/MessagingProvider";
 
 
+interface IChat {
+    key: number;
+    user: number;
+    msg: string;
+    timestamp: string;
+}[];
+
 const ChatDetail = () => {
   const { getMessages, sendMessage } = Chat;
   const { id } = useParams();
-  const bottomRef = useRef(null);
+  if (!id) {
+    window.location.href = "/matchlist";
+    return <></>;
+  }
 
-  const [chatList, setChatList] = useState([]);
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  const [chatList, setChatList] = useState<IChat[]>([]);
   const [otherUser, setOtherUser] = useState({});
 
   const onMount = async () => {
@@ -51,6 +63,7 @@ const ChatDetail = () => {
   }, []);
 
   onMessageListener().then(async (_) => {
+    console.log("masuk");
     const result = await getMessages(id);
     const chatList = result.data.data.messages.messages.map((chat) => {
       return {
@@ -60,6 +73,7 @@ const ChatDetail = () => {
         timestamp: chat.timestamp,
       };
     });
+    console.log(chatList[chatList.length - 1]);
     setChatList(chatList);
   //   const msgId = msg.data.messageId;
   //   const timestamp = msg.data.timestamp;
@@ -217,7 +231,7 @@ const ChatDetail = () => {
                     borderBottomRightRadius={chat.user === 1 ? "0" : "30px"}
                     maxWidth="70%"
                   >
-                    <Text>{chat.msg}</Text>
+                    <Text className="chat-msg">{chat.msg}</Text>
                   </Box>
                   <Text
                     color="gray.400"
@@ -268,6 +282,7 @@ const ChatDetail = () => {
               padding={0}
               background="transparent"
               onClick={handleSendMsg}
+              id="send-button"
             >
               <Icon as={Send} w="2em" h="2em"/>
             </Button>
