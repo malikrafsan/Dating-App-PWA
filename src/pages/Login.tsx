@@ -46,7 +46,7 @@ const Login = () => {
         <Image px={24} py={8} src="images/logo/logo-loves.png" alt="logo" />
         {/* FIXME: Import Poppins Font */}
         <Heading>Ready, Set, Love!</Heading>
-        <VStack mt={8} w="80%" h="100%" gap={2}>
+        <VStack mt={8} w="80%" gap={2}>
           <InputField
             type="text"
             label="Username"
