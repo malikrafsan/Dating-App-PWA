@@ -40,7 +40,7 @@ const ChatDetail = () => {
     const user = result.data.data.messages.match.user2;
     const otherUser = {
       name: user.name,
-      photo: user.userPhoto?.find((p: any) => p.index === 0).fileId,
+      photo: user.userPhoto?.find((p: any) => p.index === 0)?.fileId,
       university: user.universitySlug
     };
     setOtherUser(otherUser);

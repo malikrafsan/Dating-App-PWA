@@ -2920,6 +2920,26 @@ ajv@^8.6.0:
     require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
+allure-commandline@^2.21.0:
+  version "2.21.0"
+  resolved "https://registry.yarnpkg.com/allure-commandline/-/allure-commandline-2.21.0.tgz#57433c32ac7dec10786a388542a27a1307d1443a"
+  integrity sha512-1MMFkEhMScOFRkisuZwp52KrQVpPuhpK4SgIys9GPLqwczt9NcsI2G11XY2TSWydP5gBaPoSakevFHpqKVHaZw==
+
+allure-js-commons@2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/allure-js-commons/-/allure-js-commons-2.2.1.tgz#7fc20e722b697eac34e2a508be362307c98da865"
+  integrity sha512-hB1lvfdfvfKETHeChRkm83qGwaQk4V0luzlokKrjvFjlHeB6Q5Y2uUZTzfjI2PgW3TLO1g6iX6a8PPjwKX/qkA==
+  dependencies:
+    properties "^1.2.1"
+    uuid "^8.3.0"
+
+allure-playwright@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/allure-playwright/-/allure-playwright-2.2.1.tgz#af06ec569935f86497788eb00463e2a3aabcc5ba"
+  integrity sha512-Fq7CpvvevNXXhIkOybbJGhGZnK2+zEfnD6b8wAyy6B14SNB7VOh0rqyh7D6yDNWkXevmNiwSrUrpObq/ORPPiw==
+  dependencies:
+    allure-js-commons "2.2.1"
+
 ansi-regex@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-5.0.1.tgz#082cb2c89c9fe8659a311a53bd6a4dc5301db304"
@@ -4982,6 +5002,11 @@ prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.8.1:
     object-assign "^4.1.1"
     react-is "^16.13.1"
 
+properties@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/properties/-/properties-1.2.1.tgz#0ee97a7fc020b1a2a55b8659eda4aa8d869094bd"
+  integrity sha512-qYNxyMj1JeW54i/EWEFsM1cVwxJbtgPp8+0Wg9XjNaK6VE/c4oRi6PNu5p7w1mNXEIQIjV5Wwn8v8Gz82/QzdQ==
+
 protobufjs@^6.11.3:
   version "6.11.3"
   resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-6.11.3.tgz#637a527205a35caa4f3e2a9a4a13ddffe0e7af74"
@@ -5876,6 +5901,11 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
+
+uuid@^8.3.0:
+  version "8.3.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
+  integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
 uuid@^9.0.0:
   version "9.0.0"
