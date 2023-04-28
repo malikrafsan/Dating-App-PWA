@@ -84,7 +84,9 @@ const channelList = () => {
           borderBottom="2px" 
           borderColor="gray.300"
           ml="8"
-          mr="8">
+          mr="8"
+          id="channel-list"
+        >
           {channelList.map((item) => (
             <ChannelCard
               key={item.slug}

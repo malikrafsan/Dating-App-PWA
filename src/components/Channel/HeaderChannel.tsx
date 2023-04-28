@@ -68,10 +68,10 @@ const HeaderChannel: FC<HeaderChannelProps> = ({
       <Box h="40px">
         {state === "VIEW" ? (
           <HStack>
-            <Button bg="transparent" onClick={() => setState("EDIT")} padding="2">
+            <Button bg="transparent" onClick={() => setState("EDIT")} padding="2" id="edit-channel-btn">
               <Icon as={Edit} w={6} h={6} />
             </Button>
-            <Button bg="transparent" onClick={onDelete} padding="2">
+            <Button bg="transparent" onClick={onDelete} padding="2" id="delete-channel-btn">
               <Icon as={Trash} w={6} h={6} />
             </Button>
           </HStack>
