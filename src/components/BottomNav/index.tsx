@@ -23,7 +23,7 @@ const BottomNav = (props: IBottomNavProps) => {
   const elmts = [];
   if (left) elmts.push({ ...left, key: "left" });
   elmts.push({ ...middle, key: "middle" });
-  if (right) elmts.push({ ...right, key: "rigth" });
+  if (right) elmts.push({ ...right, key: "right" });
 
 
   return (
@@ -33,7 +33,7 @@ const BottomNav = (props: IBottomNavProps) => {
 
         {elmts.map(e => {
           return (
-            <div key={e.key} onClick={e.onClick} className={styles.elmt}>
+            <div key={e.key} id={"bottom-nav-"+e.key} onClick={e.onClick} className={styles.elmt}>
               <Icon as={e.icon} boxSize={6} /> {/* <img src={e.urlIcon} alt={e.altImg} /> */}
             </div>
           );

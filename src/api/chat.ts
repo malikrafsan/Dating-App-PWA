@@ -12,7 +12,7 @@ const getMessages = (userId: string) => {
   return api.get(`/chat/${userId}/message`);
 };
 
-const sendMessage = (to: string, message: string) => {
+const sendMessage = (to: number, message: string) => {
   return api.post("/chat/message", { to, message });
 };
 

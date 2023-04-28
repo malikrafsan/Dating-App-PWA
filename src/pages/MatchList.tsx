@@ -124,9 +124,9 @@ const MatchList = () => {
           }}
         >
           <VStack>
-            {matchList.map((match: any) => (
+            {matchList.map((match: any, idx) => (
               <React.Fragment key={match.key}>
-                <Box w="100%" p={1}>
+                <Box w="100%" p={1} id={"matchlist-" + idx}>
                   <Link to={"/chat/" + match.userId}>
                     <HStack
                       w="100%"
