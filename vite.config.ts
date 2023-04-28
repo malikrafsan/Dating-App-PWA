@@ -47,8 +47,8 @@ const selfDestroying = process.env.SW_DESTROY === 'true'
   pwaOptions.srcDir = 'src'
   pwaOptions.filename = 'firebase-messaging-sw.ts'
   pwaOptions.strategies = 'injectManifest'
-  ;(pwaOptions.manifest as Partial<ManifestOptions>).name = 'PWA Inject Manifest'
-  ;(pwaOptions.manifest as Partial<ManifestOptions>).short_name = 'PWA Inject'
+  ;(pwaOptions.manifest as Partial<ManifestOptions>).name = 'Cinlok App'
+  ;(pwaOptions.manifest as Partial<ManifestOptions>).short_name = 'Cinlok'
 
 if (claims)
   pwaOptions.registerType = 'autoUpdate'
