@@ -193,6 +193,7 @@ const ChatDetail = () => {
               display: "none",
             },
           }}
+          id="chat-container"
         >
           <VStack>
             {chatList.map((chat: any) => (

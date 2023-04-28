@@ -57,6 +57,7 @@ export default function ChannelProfile(
 
     setValue(channel);
     setState("VIEW");
+    onClose();
     onChange();
   };
   
