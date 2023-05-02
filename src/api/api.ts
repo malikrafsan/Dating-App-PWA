@@ -15,15 +15,15 @@ api.interceptors.response.use((success) => {
   return success;
 }, (error: AxiosError) => {
   console.error(error);
-  const msg = (error.response?.data as { message?: string; })?.message || error.message;
+  // const msg = (error.response?.data as { message?: string; })?.message || error.message;
 
-  toastManager.showToast({
-    title: error.name,
-    status: "error",
-    description: `Got error: "${msg}" 
-      with code: ${error.code || "unknown"} 
-      when requesting ${((error.config?.baseURL || "")
-        + error.config?.url)}`,
-  });
+  // toastManager.showToast({
+  //   title: error.name,
+  //   status: "error",
+  //   description: `Got error: "${msg}" 
+  //     with code: ${error.code || "unknown"} 
+  //     when requesting ${((error.config?.baseURL || "")
+  //       + error.config?.url)}`,
+  // });
   return Promise.reject(error);
 });
